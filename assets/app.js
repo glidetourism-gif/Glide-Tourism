@@ -25,6 +25,15 @@ function travel(){const panel=$('#connection-options');panel.hidden=v('travelSup
 form.elements.phone.addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,10);});
 function format(x){return new Date(x).toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
 const dt=$('#datetime-dialog');let activeDate=null;
+
+// Open native date/time pickers from any point in the input box.
+// Keep keyboard entry as the fallback when showPicker is unavailable.
+$$('.datetime-fields input').forEach(input=>{
+ const openPicker=()=>{if(typeof input.showPicker==='function'){try{input.showPicker();}catch{/* Native input behaviour remains available. */}}};
+ input.addEventListener('click',openPicker);
+ input.addEventListener('keydown',event=>{if((event.key==='Enter'||event.key===' ')&&typeof input.showPicker==='function'){event.preventDefault();openPicker();}});
+});
+
 function paintDate(name){const button=$('[data-datetime="'+name+'"]');button.firstElementChild.textContent=v(name)?format(v(name)):(name==='pickupDate'?'Pickup date':'Drop date');button.classList.toggle('has-value',!!v(name));}
 $$('[data-datetime]').forEach(b=>b.addEventListener('click',()=>{activeDate=b.dataset.datetime;const parts=v(activeDate).split('T');$('#choose-date').value=parts[0]||'';$('#choose-date').min=activeDate==='dropDate'&&v('pickupDate')?v('pickupDate').split('T')[0]:localDay();$('#choose-time').value=parts[1]||'08:00';$('#datetime-title').textContent=activeDate==='pickupDate'?'Pickup date':'Drop date';$('#datetime-error').textContent='';dt.showModal();}));
 $('#datetime-cancel').addEventListener('click',()=>dt.close());$('#datetime-ok').addEventListener('click',()=>{const day=$('#choose-date').value,time=$('#choose-time').value,error=$('#datetime-error');if(!day||!time){error.textContent='Choose both a date and a time.';return;}const value=day+'T'+time;if(!Number.isFinite(new Date(value).getTime())||new Date(value)<=new Date()){error.textContent='Choose a future date and time.';return;}if(activeDate==='dropDate'&&v('pickupDate')&&new Date(value)<=new Date(v('pickupDate'))){error.textContent='Drop date and time must be after pickup.';return;}form.elements[activeDate].value=value;paintDate(activeDate);if(activeDate==='pickupDate'&&v('dropDate')&&new Date(v('dropDate'))<=new Date(value)){form.elements.dropDate.value='';paintDate('dropDate');status.textContent='Pickup changed. Please select a later drop date and time.';}else status.textContent='';dt.close();});

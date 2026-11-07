@@ -9,3 +9,43 @@ html{font-size:16px!important}body:has(dialog[open]){overflow:hidden}.topline .w
 @media(max-width:575px){.booking-box{padding:20px 16px}.booking-title{flex-direction:column;gap:6px;margin-bottom:20px}.booking-title h2{font-size:21px!important}.booking-step-count{font-size:10px;padding:0}.booking-progress{gap:10px}.booking-progress li{font-size:10px;gap:5px;padding-top:10px}.booking-progress li>span{font-size:9px}.booking-step h3{font-size:19px}.step-description{font-size:12px;margin-bottom:18px}.booking-next{min-width:0;flex:1}.booking-back{padding-inline:16px}.booking-actions{margin-top:20px;padding-top:18px}.booking-consent{font-size:10px}.booking-step .row{--bs-gutter-x:12px;--bs-gutter-y:16px}.booking-label input,.booking-label select,.booking-label textarea{font-size:16px}.booking-label .counter button{width:44px}.date-trigger{font-size:14px}.datetime-fields{grid-template-columns:1fr;gap:16px;margin:20px 0 12px}dialog{padding:22px 20px}dialog h2{font-size:22px}dialog .dialog-actions{flex-wrap:wrap}#enquiry-dialog .dialog-actions .btn{flex:1 1 100%}#enquiry-dialog .dialog-actions #preview-close{order:2}dialog pre{font-size:12px;max-height:45dvh}.section#enquiry{padding:28px 0}.cg-seo-footer h2{font-size:23px!important}.footer-contacts{flex-direction:column;gap:10px}.footer-addresses{flex-direction:column;gap:14px}.footer-socials{gap:6px}.cg-seo-footer .footer-socials a{min-height:40px;font-size:10px;padding-inline:9px}.hours-panel{padding:18px}.topline .wrap{gap:8px}.wrap{width:calc(100% - 28px)!important}.brand small{font-size:8px;letter-spacing:.025em}.brand strong{font-size:17px}.brand{gap:8px}.brand img{width:38px;height:38px}}
 
 .cg-seo-footer .footer-socials a{width:40px;height:40px;min-height:40px;padding:10px;flex:none}.footer-socials svg{display:block;width:18px;height:18px;fill:currentColor}
+
+/* Refined typography: regular-weight fields and compact, readable headings. */
+body{font-family:Arial,Helvetica,sans-serif}
+.booking-box, #datetime-dialog, #enquiry-dialog{font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
+.booking-box input,.booking-box select,.booking-box textarea,.booking-box button,.datetime-fields input{font-family:inherit;font-weight:400;letter-spacing:normal}
+.booking-title h2{font-size:22px!important;font-weight:600;letter-spacing:-.015em;line-height:1.35}
+.booking-title .eyebrow{font-size:10px;letter-spacing:.1em;font-weight:600}
+.booking-step h3{font-size:18px;font-weight:600;letter-spacing:-.01em;line-height:1.4}
+.booking-label,.child-ages label,.datetime-fields label{font-size:12px;font-weight:500;line-height:1.5}
+.booking-label input,.booking-label select,.booking-label textarea,.datetime-fields input{font-size:14px;font-weight:400;line-height:1.5}
+.booking-label input::placeholder,.booking-label textarea::placeholder{font-weight:400;color:#778087;opacity:1}
+.booking-label small{font-size:11px;color:#657078}
+.date-trigger{font-size:13px;font-weight:400}
+.booking-box .booking-next,.booking-box .booking-back{font-size:13px;font-weight:600}
+.booking-progress li{font-size:11px;font-weight:400}
+.booking-progress .active{font-weight:600}
+.booking-progress li>span{font-weight:600}
+.booking-consent{font-size:11px}
+#datetime-dialog h2,#enquiry-dialog h2{font-size:21px;font-weight:600;letter-spacing:-.01em}
+.dialog-kicker{font-weight:600;letter-spacing:.1em}
+.datetime-fields input{cursor:pointer;min-height:48px}
+@media(max-width:575px){
+ .booking-title h2{font-size:19px!important}
+ .booking-step h3{font-size:17px}
+ .booking-progress li{font-size:10px}
+ .booking-step-count{font-size:11px}
+ .booking-label input,.booking-label select,.booking-label textarea,.datetime-fields input{font-size:14px}
+ .step-description,.dialog-intro{font-size:12px;line-height:1.65}
+ #datetime-dialog h2,#enquiry-dialog h2{font-size:20px}
+}
+/* iOS keeps 16px native inputs to avoid automatic page zoom. */
+@supports(-webkit-touch-callout:none){
+ .booking-label input,.booking-label select,.booking-label textarea,.datetime-fields input{font-size:16px}
+}
+
+/* Extend the native picker hit area across the entire date/time box. */
+.datetime-fields input{position:relative;padding-right:42px;background-repeat:no-repeat;background-position:right 12px center;background-size:17px 17px}
+#choose-date{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%23536068' stroke-width='1.5' viewBox='0 0 24 24'%3E%3Crect x='4' y='5' width='16' height='16' rx='1'/%3E%3Cpath d='M4 10h16M8 3v4M16 3v4'/%3E%3C/svg%3E")}
+#choose-time{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%23536068' stroke-width='1.5' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E")}
+.datetime-fields input::-webkit-calendar-picker-indicator{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;opacity:0;cursor:pointer}
