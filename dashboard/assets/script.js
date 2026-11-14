@@ -29,19 +29,29 @@
   function bindPaymentAccount(){} // One payment account only.
   function setPaymentAccount(code){state.paymentAccount='glide';}
   function syncPaymentAccount(){}
+  // New bookings use these customer-facing names. Rates are unchanged.
   const GT_TARIFF = {
-    'Sedan':{kmDay:300,rate:12,bataDay:400,tn:500,kerala:1000},
-    'Ertiga':{kmDay:300,rate:17,bataDay:500,tn:1000,kerala:1500},
-    'Innova':{kmDay:300,rate:18,bataDay:500,tn:1300,kerala:1500},
-    'Crysta':{kmDay:300,rate:19,bataDay:500,tn:1500,kerala:1500},
-    'Tempo Traveller 12 Seater':{kmDay:400,rate:22,bataDay:500,tn:3000,kerala:5500},
-    'Urbania 12 Seater':{kmDay:300,rate:38,bataDay:1000,tn:4000,kerala:6000},
-    'Urbania 17 Seater':{kmDay:300,rate:38,bataDay:1000,tn:5000,kerala:7000}
+    'Sedan (Etios/Dzire) 4+1':{kmDay:300,rate:12,bataDay:400,tn:500,kerala:1000},
+    'Ertiga 6+1':{kmDay:300,rate:17,bataDay:500,tn:1000,kerala:1500},
+    'Innova 7+1':{kmDay:300,rate:18,bataDay:500,tn:1300,kerala:1500},
+    'Crysta 6+1':{kmDay:300,rate:19,bataDay:500,tn:1500,kerala:1500},
+    'Crysta 7+1':{kmDay:300,rate:19,bataDay:500,tn:1500,kerala:1500},
+    'Tempo Traveller 12+1':{kmDay:400,rate:22,bataDay:500,tn:3000,kerala:5500},
+    'Urbania 12+1':{kmDay:300,rate:38,bataDay:1000,tn:4000,kerala:6000},
+    'Urbania 17+1':{kmDay:300,rate:38,bataDay:1000,tn:5000,kerala:7000}
   };
+  function vehicleName(value){
+    const name=String(value||'').trim();
+    const legacy={'Sedan':'Sedan (Etios/Dzire) 4+1','Ertiga':'Ertiga 6+1','Innova':'Innova 7+1',
+      'Tempo Traveller 12 Seater':'Tempo Traveller 12+1','Urbania 12 Seater':'Urbania 12+1','Urbania 17 Seater':'Urbania 17+1'};
+    return Object.prototype.hasOwnProperty.call(legacy,name)?legacy[name]:name;
+  }
   const tariffMemory={minKm:0,minBata:0};
   function activeTariff(){
     if(isManualVehicleSelected())return {kmDay:num($('manualVehicleKmDay')?.value),rate:num($('manualVehicleRate')?.value),bataDay:num($('manualVehicleBataDay')?.value),tn:0,kerala:0,manual:true};
-    return GT_TARIFF[$('vehicleType')?.value]||null;
+    const name=vehicleName($('vehicleType')?.value);
+    // Legacy Crysta bookings have the same tariff; do not infer their seating.
+    return GT_TARIFF[name==='Crysta'?'Crysta 7+1':name]||null;
   }
   function tariffMinimums(){const t=activeTariff();const days=calcDuration($('pickupDate').value,$('dropDate').value).days;return {t,days,minKm:t&&days?t.kmDay*days:0,minBata:t&&days?t.bataDay*days:0};}
   function autoFillTariff(kind){
@@ -204,7 +214,10 @@
       description:String(row.querySelector('.inc-custom')?.value||'').trim(),amount:num(row.querySelector('.inc-amount')?.value)
     })).filter(x=>x.description||x.amount>0);
   }
-  function manualInclusionText(x){if(typeof x==='string')return x.trim();return (x.description||x.details||'Inclusion')+(num(x.amount)>0?' — ₹'+formatMoney(num(x.amount)):'');}
+  function manualInclusionText(x){
+    const description=typeof x==='string'?x:(x.description||x.details||'Inclusion');
+    return String(description).trim().replace(/\s+—\s*₹[\d,]+(?:\.\d+)?\s*$/, '');
+  }
 
   function cleanHotelRooms(h){
     const raw = String((h && (h.rooms || h.room || h.roomCount || h.noOfRooms || h.numberOfRooms)) || '').trim();
@@ -225,8 +238,14 @@
     return manual || ($('vehicleType')?.value || '');
   }
   function setVehicleTypeFromSaved(value){
-    const saved=String(value||'').trim();
+    const saved=vehicleName(value);
     if(!$('vehicleType')) return;
+    // Keep an old Crysta booking editable without inventing its seating capacity.
+    if(saved==='Crysta' && !Array.from($('vehicleType').options).some(o=>o.value==='Crysta')){
+      const option=document.createElement('option'); option.value='Crysta';
+      option.textContent='Crysta (legacy booking - confirm seating)'; option.hidden=true;
+      $('vehicleType').appendChild(option);
+    }
     const options=Array.from($('vehicleType').options).map(o=>o.value || o.textContent.trim());
     if(saved && options.includes(saved)){
       $('vehicleType').value=saved;
@@ -744,9 +763,9 @@ We look forward to serving you! 😊`;
 
   function buildQuoteDocumentHtml(p,q,duration,packageCost){
     const hotels=p.hotels; const route=routeText(p.pickup,p.intermediateLocation,p.drop);
-    const hotelHtml=hotels.length?`<section class="pdf-card accommodation-card"><div class="pdf-section-title">Accommodation</div><table class="pdf-hotel-table"><thead><tr><th>Nights</th><th>Rooms</th><th>Location</th><th>Hotel Type</th><th>Hotel</th><th>Cost</th></tr></thead><tbody>${hotels.map(h=>`<tr><td>${escapeHtml(h.nights||'-')}</td><td>${escapeHtml(cleanHotelRooms(h)||'-')}</td><td>${escapeHtml(h.location||'-')}</td><td>${escapeHtml(h.hotelType||'-')}</td><td>${escapeHtml(h.hotelName||'-')}</td><td>₹${formatMoney(num(h.cost))}</td></tr>`).join('')}</tbody></table></section>`:'';
+    const hotelHtml=hotels.length?`<section class="pdf-card accommodation-card"><div class="pdf-section-title">Accommodation</div><table class="pdf-hotel-table"><thead><tr><th>Nights</th><th>Rooms</th><th>Location</th><th>Hotel Type</th><th>Hotel</th></tr></thead><tbody>${hotels.map(h=>`<tr><td>${escapeHtml(h.nights||'-')}</td><td>${escapeHtml(cleanHotelRooms(h)||'-')}</td><td>${escapeHtml(h.location||'-')}</td><td>${escapeHtml(h.hotelType||'-')}</td><td>${escapeHtml(h.hotelName||'-')}</td></tr>`).join('')}</tbody></table></section>`:'';
     const pages=[];
-    pages.push(`<section class="pdf-page quote-page"><div class="pdf-content">${brandRowHtml(q.quoteNo,'Quotation')}<div class="pdf-hero"><h2>Dear ${escapeHtml(p.clientName||'Guest')},</h2><p>Thank you for choosing <strong>Glide Tourism</strong>. Please find your customized quotation for <strong>${escapeHtml(p.intermediateLocation||'your trip')}</strong>.</p><div class="pdf-pills"><span><b>Phone</b> ${escapeHtml(p.phone||'-')}</span><span><b>Dates</b> ${formatDateInput(p.pickupDate)} to ${formatDateInput(p.dropDate)}</span><span><b>Duration</b> ${escapeHtml(duration.text)}</span><span><b>Vehicle</b> ${escapeHtml(p.vehicleType||'-')} · ${escapeHtml(p.acStatus)}</span><span class="wide"><b>Route</b> ${escapeHtml(route)}</span></div></div><div class="pdf-price-row two-cell"><div class="pdf-price-cell cost"><small>Total Package Cost <span>(KM included: ${formatMoney(num(p.kmIncluded))}, Rate: ₹${formatMoney(num(p.extraKmCharge))}/KM)</span></small><b>₹${formatMoney(packageCost)}</b></div><div class="pdf-price-cell"><small>Advance Needed To Confirm Booking</small><b>₹${formatMoney(num(p.advanceAmount))}</b></div></div><div class="pdf-note-bar payment-inline"><strong>Advance payment is required to confirm the booking.</strong> Final package amount is inclusive of selected internal charges and selected stay options.<br>${paymentDetailsMarkup()}</div>${hotelHtml}<div class="pdf-info-grid bottom-info"><section class="pdf-list-card"><h3>Inclusions</h3><ul>${buildInclusions(p).map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul></section><section class="pdf-list-card"><h3>Booking Steps</h3><ol><li>Pay advance amount to confirm booking.</li><li>Share payment screenshot / UTR.</li><li>Booking confirmation receipt will be shared.</li></ol></section></div>${footerHtml()}</div></section>`);
+    pages.push(`<section class="pdf-page quote-page"><div class="pdf-content">${brandRowHtml(q.quoteNo,'Quotation')}<div class="pdf-hero"><h2>Dear ${escapeHtml(p.clientName||'Guest')},</h2><p>Thank you for choosing <strong>Glide Tourism</strong>. Please find your customized quotation for <strong>${escapeHtml(p.intermediateLocation||'your trip')}</strong>.</p><div class="pdf-pills"><span><b>Phone</b> ${escapeHtml(p.phone||'-')}</span><span><b>Dates</b> ${formatDateInput(p.pickupDate)} to ${formatDateInput(p.dropDate)}</span><span><b>Duration</b> ${escapeHtml(duration.text)}</span><span><b>Vehicle</b> ${escapeHtml(p.vehicleType||'-')} · ${escapeHtml(p.acStatus)}</span><span class="wide"><b>Route</b> ${escapeHtml(route)}</span></div></div><div class="pdf-price-row two-cell"><div class="pdf-price-cell cost"><small>Total Package Cost <span>(KM included: ${formatMoney(num(p.kmIncluded))}, Rate: ₹${formatMoney(num(p.extraKmCharge))}/KM)</span></small><b>₹${formatMoney(packageCost)}</b></div><div class="pdf-price-cell"><small>Advance Needed To Confirm Booking</small><b>₹${formatMoney(num(p.advanceAmount))}</b></div></div><div class="pdf-note-bar payment-inline"><strong>Advance payment is required to confirm the booking.</strong> The total package amount includes the services and accommodation listed below.<br>${paymentDetailsMarkup()}</div>${hotelHtml}<div class="pdf-info-grid bottom-info"><section class="pdf-list-card"><h3>Inclusions</h3><ul>${buildInclusions(p).map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul></section><section class="pdf-list-card"><h3>Booking Steps</h3><ol><li>Pay advance amount to confirm booking.</li><li>Share payment screenshot / UTR.</li><li>Booking confirmation receipt will be shared.</li></ol></section></div>${footerHtml()}</div></section>`);
     const days=parseItineraryDays(p.itineraryText); if(days.length){ chunk(days,6).forEach(ch=>pages.push(itineraryPageHtml(ch,ch.length===1))); } pages.push(finalTermsPageHtml()); return pages.join('');
   }
   function buildAdvanceReceiptHtml(q,paid){ if(!q) return blankDoc('Advance Receipt','Fetch a quotation to preview the receipt.'); const balance=Math.max(0,num(q.packageCost)-num(paid)); const receiptNo='AR-'+q.quoteNo; return `<section class="pdf-page receipt-page"><div class="pdf-content">${brandRowHtml(receiptNo,'Advance Payment Receipt')}<div class="receipt-title"><h2>Advance Payment Receipt</h2><p>Payment status: <strong>Advance Received</strong></p></div><div class="receipt-grid"><table class="pdf-data"><tr><th>Quote No</th><td>${escapeHtml(q.quoteNo)}</td></tr><tr><th>Customer</th><td>${escapeHtml(q.clientName)}</td></tr><tr><th>Phone</th><td>${escapeHtml(q.phone)}</td></tr><tr><th>Vehicle</th><td>${escapeHtml(q.vehicleType)}</td></tr></table><table class="pdf-data"><tr><th>Pickup</th><td>${escapeHtml(q.pickup)}</td></tr><tr><th>Intermediate</th><td>${escapeHtml(q.intermediateLocation)}</td></tr><tr><th>Drop</th><td>${escapeHtml(q.drop)}</td></tr><tr><th>Travel Dates</th><td>${escapeHtml(q.pickupDate)} to ${escapeHtml(q.dropDate)}</td></tr></table></div><table class="amount-table"><tr><th>Description</th><th>Amount</th></tr><tr><td>Total Package Amount</td><td>₹${formatMoney(q.packageCost)}</td></tr><tr><td>Advance Paid</td><td>₹${formatMoney(paid)}</td></tr><tr class="strong"><td>Balance Due</td><td>₹${formatMoney(balance)}</td></tr></table><div class="pdf-inline-account">${paymentDetailsMarkup()}</div><section class="pdf-terms-card compact"><h3>Terms & Conditions</h3><ul>${termsList().map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul></section><div class="receipt-thanks">Thank you for choosing Glide Tourism.<br>For inquiries, contact ${escapeHtml(cfg.phone||'+91 8667737237')}<br>This is a computer-generated receipt and does not require a signature.</div>${footerHtml()}</div></section>`; }
