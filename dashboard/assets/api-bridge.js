@@ -6,12 +6,10 @@
 (() => {
   if (window.google && window.google.script && window.google.script.run) return;
 
+  // Same-origin API endpoint. The Netlify function forwards requests to Apps Script
+  // server-side, avoiding the browser's cross-origin (CORS) restriction.
   function endpoint() {
-    const url = window.APP_CONFIG && window.APP_CONFIG.webAppUrl;
-    if (!url || url === 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE') {
-      throw new Error('Apps Script Web App URL missing. Update assets/config.js first.');
-    }
-    return url;
+    return '/.netlify/functions/glide-api';
   }
 
   function makeRunner(successHandler, failureHandler) {
@@ -34,8 +32,7 @@
 
         fetch(url, {
           method: 'POST',
-          redirect: 'follow',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action, args })
         })
           .then(async res => {
