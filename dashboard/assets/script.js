@@ -1,5 +1,5 @@
 (() => {
-  const FALLBACK_LOGO = 'assets/glide-logo.png';
+  const FALLBACK_LOGO = 'https://www.glidetourism.com/assets/logo.png';
   const cfg = window.APP_CONFIG || {};
   const $ = id => document.getElementById(id);
   const today = new Date();
@@ -859,7 +859,7 @@ We look forward to serving you! 😊`;
 
   function brandRowHtml(docNo,label){
     const quoteBox=docNo?`<div class="pdf-quote-box"><div class="label">${escapeHtml(label||'Document')}</div><b>${escapeHtml(docNo)}</b><br>Date: ${formatDate(today)}</div>`:'';
-    return `<div class="pdf-brand-row"><div class="pdf-brand"><div class="pdf-logo"><img src="${escapeAttr(cfg.logoUrl||'assets/glide-logo.png')}" alt="Glide Tourism G logo"></div><div class="pdf-company"><h1>GLIDE TOURISM</h1><p class="brand-subtitle">Your Trusted Travel Partner</p><p class="brand-details"><span>www.glidetourism.com · MSME: UDYAM-TN-03-0362900 · Phone: +91 8667737237</span><span>Service Areas: Bangalore · Mysore · Coimbatore</span></p></div></div>${quoteBox}</div>`;
+    return `<div class="pdf-brand-row"><div class="pdf-brand"><div class="pdf-logo"><img src="${escapeAttr(cfg.logoUrl||'https://www.glidetourism.com/assets/logo.png')}" alt="Glide Tourism G logo"></div><div class="pdf-company"><h1>GLIDE TOURISM</h1><p class="brand-subtitle">Your Trusted Travel Partner</p><p class="brand-details"><span>www.glidetourism.com · MSME: UDYAM-TN-03-0362900 · Phone: +91 8667737237</span><span>Service Areas: Bangalore · Mysore · Coimbatore</span></p></div></div>${quoteBox}</div>`;
   }
 
   function itineraryPageHtml(days,single){ return `<section class="pdf-page itinerary-page"><div class="pdf-content">${brandRowHtml('','')}<div class="pdf-section-title">Day-wise Itinerary</div><div class="pdf-itinerary-grid ${single?'single':''}">${days.map(dayCardHtml).join('')}</div>${footerHtml()}</div></section>`; }
