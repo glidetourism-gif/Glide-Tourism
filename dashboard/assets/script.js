@@ -36,7 +36,7 @@
     'Innova 7+1':{kmDay:300,rate:18,bataDay:500,tn:1300,kerala:1500},
     'Crysta 6+1':{kmDay:300,rate:19,bataDay:500,tn:1500,kerala:1500},
     'Crysta 7+1':{kmDay:300,rate:19,bataDay:500,tn:1500,kerala:1500},
-    'Tempo Traveller 12+1':{kmDay:400,rate:22,bataDay:500,tn:3000,kerala:5500},
+    'Tempo Traveller 12+1':{kmDay:300,rate:22,bataDay:500,tn:3000,kerala:5500},
     'Urbania 12+1':{kmDay:300,rate:38,bataDay:1000,tn:4000,kerala:6000},
     'Urbania 17+1':{kmDay:300,rate:38,bataDay:1000,tn:5000,kerala:7000}
   };
