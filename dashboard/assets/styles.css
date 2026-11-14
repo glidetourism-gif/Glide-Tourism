@@ -1,0 +1,225 @@
+:root{--gold:#f5bd00;--gold-dark:#e6ac00;--gold-2:#ffd84d;--ink:#151515;--paper:#fbfaf7;--cream:#f2ede4;--line:#e5ded2;--muted:#6b665e;--danger:#c2410c;--shadow:0 18px 55px rgba(17,17,17,.11)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:radial-gradient(circle at top left,rgba(245,189,0,.22),transparent 32%),#eee9df;color:var(--ink)}button,input,textarea,select{font:inherit}button{cursor:pointer}[hidden],.d-none{display:none!important}a{color:#9f7600;text-decoration:none;font-weight:900}
+.login-view{min-height:100vh;display:grid;place-items:center;padding:18px}.login-card{width:min(430px,100%);background:rgba(251,250,247,.96);border:1px solid rgba(229,222,210,.9);border-radius:30px;padding:30px;box-shadow:var(--shadow);position:relative;overflow:hidden}.login-card:before{content:"";position:absolute;right:-90px;top:-90px;width:220px;height:220px;border-radius:50%;background:rgba(245,189,0,.18)}.brand-lockup{display:flex;align-items:center;gap:14px;position:relative;z-index:1}.brand-lockup.center{justify-content:center;text-align:left}.logo-ring{width:60px;height:60px;display:grid;place-items:center;overflow:visible;background:transparent;border:0;padding:0;flex:0 0 auto}.logo-ring img{width:100%;height:100%;object-fit:contain;border-radius:0;display:block}.logo-ring.logo-fallback{background:var(--gold);color:#111;font-weight:900;font-size:21px}.logo-ring.logo-fallback:before{content:"CG"}.brand-lockup h1{margin:0;font-size:16px;letter-spacing:.6px;font-weight:900}.brand-lockup p{margin:3px 0 0;color:var(--muted);font-size:12px;font-weight:700}.eyebrow{margin:0 0 7px;color:var(--gold);text-transform:uppercase;font-weight:900;font-size:11px;letter-spacing:.9px}.login-copy{position:relative;z-index:1;margin:30px 0 22px}.login-copy h2{margin:0;font-size:34px;letter-spacing:-1px}.login-form{position:relative;z-index:1;display:grid;gap:14px}.login-form label,.quote-form label{display:grid;gap:6px}.login-form span,.quote-form label>span,.check-wrap>span{font-size:10px;text-transform:uppercase;letter-spacing:.8px;font-weight:900;color:#5f594f}.login-form input,.quote-form input,.quote-form textarea,.quote-form select{width:100%;border:1px solid var(--line);border-radius:14px;background:#fff;color:#111;outline:0;padding:10px 12px;font-size:13px;font-weight:700;transition:border .2s,box-shadow .2s}.quote-form textarea{min-height:130px;resize:vertical;line-height:1.45;font-weight:600}.login-form input:focus,.quote-form input:focus,.quote-form textarea:focus,.quote-form select:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(245,189,0,.15)}.login-form button,.primary-btn{border:0;border-radius:16px;padding:12px 16px;font-weight:900;background:linear-gradient(135deg,var(--gold),#ffe072);color:#111;box-shadow:0 10px 25px rgba(245,189,0,.28)}.login-form small{color:var(--muted);text-align:center;line-height:1.35}.login-error{margin:0;color:var(--danger);font-weight:800;font-size:13px}.password-wrap{position:relative}.password-wrap input{padding-right:50px!important}.eye-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px!important;height:38px;border:0!important;border-radius:50%!important;background:linear-gradient(135deg,var(--gold),#ffe072)!important;color:#111;display:grid!important;place-items:center;font-size:15px;box-shadow:none!important;padding:0!important}
+.dashboard-view{min-height:100vh}.app-header{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 20px;background:rgba(251,250,247,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.top-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.nav-link,.logout-btn{text-decoration:none;border:1px solid var(--line);background:#fff;color:#222;border-radius:999px;padding:9px 13px;font-size:12px;font-weight:900}.nav-link.active{background:#111;color:var(--gold);border-color:#111}.logout-btn{color:#8a2f0c}.workspace{width:min(1780px,100%);margin:0 auto;padding:20px;display:grid;grid-template-columns:minmax(480px,1fr) minmax(520px,1fr);gap:20px;align-items:start}.form-panel,.preview-panel{min-width:0;background:rgba(251,250,247,.9);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow)}.form-panel{padding:20px}.panel-head{margin-bottom:18px}.panel-head h2,.preview-head h2{margin:0;font-size:25px;letter-spacing:-.6px}.panel-head p:not(.eyebrow){margin:8px 0 0;color:var(--muted);line-height:1.5;font-size:14px}.auto-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}.auto-meta span{display:inline-flex;gap:4px;align-items:center;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 11px;font-size:12px;color:#555;font-weight:800}.auto-meta b{color:#111}.quote-form{display:grid;gap:14px}.form-section{background:#fffaf0;border:1px solid var(--line);border-radius:20px;padding:16px}.form-section h3{margin:0 0 12px;font-size:14px;letter-spacing:.25px;text-transform:uppercase}.form-section h3 span{color:var(--muted);font-size:11px;letter-spacing:0;text-transform:none}.form-grid{display:grid;gap:12px}.form-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.form-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.cost-split-grid,.cost-total-grid,.inclusion-wrap{margin-top:12px}.quote-form em{color:var(--gold);font-style:normal;font-size:10px;margin-left:4px}.quote-form input[readonly]{background:#f7f3ea;color:#59534a;cursor:default}.date-click,.date-click input{cursor:pointer}.check-wrap{display:grid;gap:8px;align-self:end}.check-row{display:flex;flex-wrap:wrap;gap:8px}.check-pill{display:flex!important;align-items:center;gap:8px!important;width:auto;border:1px solid var(--line);border-radius:14px;padding:9px 11px;background:#fff;font-weight:900;font-size:13px}.check-pill input{width:auto;accent-color:var(--gold)}.duration-badge{display:inline-flex;align-items:center;border:1px solid var(--line);background:#fff7d0;border-radius:999px;padding:9px 11px;font-size:12px;font-weight:900;color:#5f4700}.cost-breakdown{margin-top:12px;border-left:4px solid var(--gold);background:#fff;border-radius:12px;padding:10px 12px;font-size:12px;line-height:1.45;color:#4e493f;font-weight:800}.section-head-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.section-head-row h3{margin:0}.small-btn{border:1px solid #111;background:#111;color:var(--gold);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:900}.hotel-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) 42px;gap:9px;align-items:end}.hotel-head{color:#6f685d;text-transform:uppercase;letter-spacing:.7px;font-size:10px;font-weight:900;margin-bottom:8px;padding:0 4px}.hotel-row{margin-bottom:9px}.hotel-row select,.hotel-row input{border-radius:12px;padding:10px 11px}.remove-hotel,.remove-charge{width:38px;height:38px;border-radius:12px;border:1px solid #f1c7b8;background:#fff3ee;color:#a33811;font-weight:900}.charge-row{display:grid;grid-template-columns:1fr 160px 42px;gap:10px;align-items:end;margin-bottom:10px}.button-row{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}.secondary-btn{border:1px solid var(--line);background:#fff;border-radius:16px;padding:12px 15px;font-weight:900;color:var(--ink)}.action-btn{min-width:88px;padding:11px 14px}.sticky-actions{position:sticky;bottom:0;padding-top:12px;background:linear-gradient(180deg,rgba(251,250,247,0),rgba(251,250,247,.96) 40%)}.form-fetch-btn{align-self:end}.fetch-help{display:block;margin-top:7px;color:var(--muted);font-size:12px;font-weight:700}.fetch-grid{align-items:end}.fetched-card{margin-top:12px;background:#fff;border:1px dashed var(--line);border-radius:14px;padding:12px;color:#5f594f;font-size:13px;line-height:1.45;font-weight:700}.mini-msg{min-height:18px;margin:8px 0 0;color:var(--muted);font-size:12px;font-weight:800}.mini-msg.good{color:#047857}.mini-msg.bad{color:#b91c1c}.preview-panel{position:sticky;top:88px;max-height:calc(100vh - 110px);display:flex;flex-direction:column;padding:14px}.preview-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.preview-scroll{overflow:auto;padding:18px;background:#dfd7ca;min-height:calc(100vh - 195px);border-radius:20px}.site-footer{text-align:center;padding:12px;color:var(--muted);font-size:12px}.modal-mask{position:fixed;inset:0;display:grid;place-items:center;background:rgba(17,24,39,.62);z-index:80;padding:20px}.modal-card{width:min(540px,100%);background:#fff;border-radius:26px;padding:24px;box-shadow:0 30px 80px rgba(0,0,0,.35)}.modal-card h3{margin:0 0 8px;font-weight:950}.modal-card p{color:#4b5563;line-height:1.5}.modal-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.primary-btn:disabled{opacity:.58;cursor:not-allowed}
+/* PDF DESIGN */
+.quote-pdf{width:210mm;margin:0 auto;background:var(--paper);color:var(--ink);font-family:Inter,Arial,Helvetica,sans-serif;box-shadow:0 20px 60px rgba(0,0,0,.22);transform-origin:top center}.pdf-page{width:210mm;min-height:297mm;padding:9mm 11mm 13mm;background:radial-gradient(circle at right top,rgba(245,189,0,.12),transparent 32%),var(--paper);position:relative;overflow:hidden;page-break-after:always}.pdf-page:last-child{page-break-after:auto}.pdf-page:before{content:"";position:absolute;inset:7mm;border:1px solid #e1dbce;border-radius:5mm;pointer-events:none}.pdf-content{position:relative;z-index:1}.pdf-brand-row{display:flex;align-items:flex-start;justify-content:space-between;gap:5mm;margin-bottom:4.5mm}.pdf-brand{display:flex;align-items:center;gap:3.2mm;min-width:0;flex:1}.pdf-logo{width:16mm;height:16mm;border:0;border-radius:0;background:transparent;display:grid;place-items:center;overflow:visible;flex:0 0 16mm;padding:0}.pdf-logo img{width:90%;height:90%;object-fit:contain;border-radius:0;display:block;margin:auto}.pdf-logo.logo-fallback{background:var(--gold);color:#111;font-weight:900;font-size:13pt}.pdf-logo.logo-fallback:before{content:"CG"}.pdf-company{background:linear-gradient(90deg,#fff8dc,#fffdf7);border-left:1.1mm solid var(--gold);border-radius:3mm;padding:2mm 2.6mm;min-width:0;flex:1}.pdf-company h1{margin:0;font-size:12pt;letter-spacing:.18mm;color:#d49b00;line-height:1.05;font-weight:900;white-space:nowrap}.pdf-company p{margin:.8mm 0 0;font-size:7pt;color:#444;line-height:1.28;white-space:nowrap}.pdf-company p span{display:block;white-space:nowrap}.pdf-quote-box{text-align:right;min-width:36mm;color:#444;font-size:7.8pt;line-height:1.38;padding-top:.8mm}.pdf-quote-box .label{font-weight:900;color:#999;letter-spacing:.7mm;text-transform:uppercase;font-size:7.2pt}.pdf-quote-box b{color:#222}.pdf-hero{margin-top:1.5mm;border-radius:4.5mm;padding:5mm;color:#fff;background:radial-gradient(circle at right top,rgba(255,216,77,.25),transparent 36%),linear-gradient(135deg,#151515,#2f2c25 64%,#3d3627);position:relative;overflow:hidden}.pdf-hero:after{content:"";position:absolute;right:-24mm;bottom:-26mm;width:75mm;height:75mm;border-radius:50%;border:2mm solid rgba(245,189,0,.18)}.pdf-hero>*{position:relative;z-index:1}.pdf-hero h2{margin:0;font-size:18.5pt;line-height:1.05}.pdf-hero p{margin:2.2mm 0 0;color:#eee;font-size:8.2pt;line-height:1.32}.pdf-pills{display:flex;flex-wrap:wrap;gap:1.6mm;margin-top:3mm}.pdf-pills span{padding:1.45mm 2.2mm;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);font-size:7.25pt;font-weight:800}.pdf-pills span b{color:var(--gold-2);margin-right:1mm}.pdf-pills span.wide{max-width:100%}.pdf-price-row{display:grid;grid-template-columns:1.25fr .75fr;margin-top:2.7mm;border:1px solid #ded9ce;border-radius:4mm;overflow:hidden;background:#fff;page-break-inside:avoid}.pdf-price-cell{padding:3mm;border-right:1px solid #ebe6dc}.pdf-price-cell:last-child{border-right:0}.pdf-price-cell small{display:block;color:#777;text-transform:uppercase;font-size:6.8pt;font-weight:900;letter-spacing:.25mm;margin-bottom:1mm}.pdf-price-cell b{font-size:16.5pt;line-height:1.05}.pdf-price-cell.cost{background:linear-gradient(135deg,#ffe16e,var(--gold));color:#111}.pdf-payment-card{margin-top:3.5mm;padding:4mm;border-radius:4.8mm;background:linear-gradient(135deg,#171717,#2b2b2b);color:#fff;page-break-inside:avoid}.pdf-payment-card h3{margin:0 0 2.2mm;color:var(--gold);text-transform:uppercase;letter-spacing:.32mm;font-size:9.8pt}.pdf-paygrid{display:grid;grid-template-columns:.8fr 1.8fr;gap:4mm;align-items:start}.pdf-amount{background:var(--gold);color:#111;border-radius:4mm;padding:3.5mm}.pdf-amount small{display:block;text-transform:uppercase;letter-spacing:.25mm;font-weight:900;font-size:7pt}.pdf-amount b{font-size:17pt;display:block;margin-top:1mm}.pdf-payment-card p{margin:0 0 1.2mm;font-size:8.2pt;line-height:1.32}.pdf-note-bar{margin-top:2.3mm;font-size:8.65pt;color:#514a3d;background:#fff7d0;border-left:1.3mm solid var(--gold);padding:2mm 2.6mm;border-radius:2mm;line-height:1.35}.payment-inline b{color:#111}.pdf-section-title{margin:0 0 2.4mm;display:flex;align-items:center;gap:2.5mm;font-size:9.8pt;text-transform:uppercase;letter-spacing:.28mm;font-weight:900;color:#171717}.pdf-section-title:before{content:"";width:7mm;height:1.8mm;background:var(--gold);border-radius:99px;display:block}.pdf-card,.pdf-list-card{background:#fff;border:1px solid #e7e2d7;border-radius:4mm;padding:3mm;box-shadow:0 1mm 4mm rgba(28,26,22,.045);page-break-inside:avoid}.pdf-card h3,.pdf-list-card h3{margin:0 0 2.3mm;font-size:9pt;text-transform:uppercase;letter-spacing:.32mm}.pdf-vehicle-panel{margin-top:3.5mm}.pdf-data{width:100%;border-collapse:collapse;font-size:8pt;line-height:1.25}.pdf-data th{width:30%;text-align:left;padding:1mm 1mm 1mm 0;color:#333;vertical-align:top}.pdf-data td{padding:1mm 0;vertical-align:top;font-weight:750}.accommodation-card{margin-top:2.6mm}.pdf-hotel-table{width:100%;border-collapse:collapse;font-size:7.6pt;overflow:hidden;border-radius:3mm}.pdf-hotel-table th{background:#1d1d1d;color:var(--gold);text-align:left;padding:1.6mm 1.8mm;font-size:6.6pt;text-transform:uppercase;letter-spacing:.25mm}.pdf-hotel-table td{padding:1.45mm 1.8mm;border-bottom:1px solid #eee9df;background:#fff}.bottom-info{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin-top:2.6mm}.pdf-list-card ul,.pdf-list-card ol{margin:0;padding-left:4mm}.pdf-list-card li{font-size:7.65pt;line-height:1.22;margin-bottom:.55mm}.pdf-footer{position:absolute;left:12mm;right:12mm;bottom:7.5mm;display:flex;justify-content:space-between;color:#8a8378;font-size:7pt}.pdf-footer b{color:#555}.itinerary-page .pdf-brand-row{margin-bottom:5mm}.pdf-itinerary-grid{display:grid;grid-template-columns:1fr 1fr;gap:4mm}.pdf-itinerary-grid.single{grid-template-columns:1fr}.pdf-day-card{display:grid;grid-template-columns:15mm 1fr;gap:3mm;padding:4mm;background:#fff;border:1px solid #e5ded2;border-radius:5mm;box-shadow:0 1mm 4mm rgba(28,26,22,.045);page-break-inside:avoid;min-height:78mm}.pdf-itinerary-grid.single .pdf-day-card{min-height:80mm}.pdf-day-badge{display:flex;flex-direction:column;align-items:center;gap:2mm}.pdf-day-badge span{font-size:7pt;color:#777;font-weight:900;text-transform:uppercase;letter-spacing:.25mm}.pdf-day-badge b{width:12mm;height:12mm;border-radius:50%;background:#171717;color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:12pt}.pdf-day-content h3{margin:0;font-size:11pt;line-height:1.2}.pdf-day-content ul{margin:2.2mm 0 0;padding-left:4mm}.pdf-day-content li{margin:0 0 1mm;font-size:8pt;line-height:1.23;break-inside:avoid}.pdf-stay{margin-top:2.2mm;display:inline-block;padding:1.6mm 2.8mm;border-radius:99px;background:#fff4c1;font-weight:900;font-size:7.7pt;color:#222}.pdf-thank-card{margin-top:12mm;border-radius:6mm;padding:8mm;background:radial-gradient(circle at right top,rgba(245,189,0,.16),transparent 35%),linear-gradient(135deg,#161616,#33312b);color:#fff}.pdf-thank-card h2{margin:0;font-size:22pt;color:var(--gold)}.pdf-thank-card p{margin:3mm 0 0;font-size:9.2pt;line-height:1.5;color:#eee}.pdf-terms-card{margin-top:6mm;border-radius:5mm;padding:6mm;background:#e9e4da;border:1px solid #d8d0c3;color:#25221e}.pdf-terms-card.compact{padding:5mm;margin-top:6mm}.pdf-terms-card h3{margin:0 0 3mm;text-transform:uppercase;letter-spacing:.35mm;font-size:10.5pt}.pdf-terms-card ul{margin:0;padding-left:4.4mm}.pdf-terms-card li{font-size:8.25pt;line-height:1.35;margin-bottom:1.1mm}.receipt-title{text-align:center;margin:10mm 0 7mm;padding:4mm 0;border-top:1px solid #ddd2c1;border-bottom:1px solid #ddd2c1}.receipt-title h2{margin:0;text-transform:uppercase;font-size:17pt}.receipt-title p{margin:2mm 0 0;color:#555}.receipt-grid{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-bottom:6mm}.amount-table{width:100%;border-collapse:collapse;margin-top:5mm;font-size:10pt;background:#fff}.amount-table th{background:#f7f3ea;color:#888;text-align:left;padding:3mm;border:1px solid #d9d3c8}.amount-table td{padding:3mm;border:1px solid #d9d3c8}.amount-table td:last-child,.amount-table th:last-child{text-align:right;font-weight:900}.amount-table .strong td{font-weight:900;background:#fffaf0}.receipt-thanks{text-align:center;color:#555;border-top:1px solid #ddd2c1;margin-top:8mm;padding-top:5mm;font-size:8.5pt}.strong-thanks{font-size:15pt;font-weight:900;color:#333}.km-card{margin-top:4mm}.assignment-message{margin-top:6mm}.assignment-message pre{white-space:pre-wrap;font-family:Inter,Arial,sans-serif;font-size:10pt;line-height:1.45;margin:0;color:#222}
+@media(max-width:1180px){.workspace{grid-template-columns:1fr}.preview-panel{position:static;max-height:none}.preview-scroll{min-height:560px}}@media(max-width:760px){.login-view{padding:10px}.login-card{padding:24px;border-radius:24px}.app-header{position:static;flex-direction:column;align-items:stretch;padding:12px}.top-nav{gap:6px}.nav-link,.logout-btn{font-size:11px;padding:8px 10px}.workspace{padding:10px}.form-panel,.preview-panel{border-radius:20px}.form-panel{padding:13px}.form-section{padding:13px}.form-grid.two,.form-grid.three,.hotel-grid,.charge-row{grid-template-columns:1fr}.hotel-head{display:none}.button-row{justify-content:stretch;gap:7px}.action-btn{flex:1;min-width:0;font-size:12px;padding:10px 8px;border-radius:12px}.preview-scroll{padding:8px;min-height:520px}.quote-pdf{transform:scale(.48);transform-origin:top left;margin:0;width:210mm}.preview-scroll{overflow:auto}.logo-ring{width:54px;height:54px}.brand-lockup h1{font-size:14px}}
+@page{size:A4;margin:0}.print-body{background:#fff;margin:0}.print-body .quote-pdf{box-shadow:none}.print-body .pdf-page{width:210mm;min-height:297mm}@media print{body{background:#fff!important}.no-print,.login-view,.app-header,.form-panel,.preview-head,.site-footer{display:none!important}.dashboard-view,.workspace,.preview-panel,.preview-scroll{display:block!important;padding:0!important;margin:0!important;background:#fff!important;box-shadow:none!important;border:0!important;max-height:none!important;overflow:visible!important;width:100%!important}.module-view.d-none{display:none!important}.quote-pdf{box-shadow:none!important;transform:none!important;width:210mm!important}.pdf-page{width:210mm!important;min-height:297mm!important;page-break-after:always!important}.pdf-page:last-child{page-break-after:auto!important}}
+
+
+.pdf-footer{display:none!important}
+
+
+/* Dashboard compact + sharp border update */
+.panel-head{position:relative;padding-right:160px;margin-bottom:12px}.panel-actions{position:absolute;right:0;top:0}.tariff-open-btn{border:1px solid #151515;background:#151515;color:var(--gold);font-weight:900;padding:10px 14px;border-radius:8px;letter-spacing:.2px}.workspace{padding:14px;gap:14px}.form-panel{padding:16px}.quote-form{gap:10px}.form-section{padding:12px;border-radius:10px}.form-section h3{margin-bottom:9px}.form-grid{gap:9px}.login-form input,.quote-form input,.quote-form textarea,.quote-form select{border-radius:8px;padding:8px 10px}.quote-form textarea{min-height:108px}.primary-btn,.secondary-btn,.small-btn,.nav-link,.logout-btn,.check-pill,.duration-badge,.auto-meta span,.modal-card,.form-panel,.preview-panel,.login-card,.fetched-card,.cost-breakdown{border-radius:8px!important}.button-row{gap:8px}.action-btn{padding:10px 14px}.hotel-grid{grid-template-columns:.55fr .55fr 1fr 1fr 1.25fr 38px;gap:8px}.hotel-row{margin-top:8px}.hotel-row .small-label{font-size:9px;color:#655f55;text-transform:uppercase;font-weight:900;letter-spacing:.5px}.inclusion-entry-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1.35fr 38px;gap:8px;align-items:end}.inclusion-head{margin-bottom:6px;color:#675f53;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.6px}.inclusion-row{margin-top:8px}.remove-inclusion,.remove-hotel,.remove-charge{border:1px solid var(--line);background:#fff;color:#8a2f0c;font-weight:900;border-radius:8px;height:36px}.modal-mask{padding:18px}.tariff-modal-card{width:min(850px,96vw);padding:14px}.tariff-modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.tariff-modal-head h3{margin:0}.tariff-close-btn{padding:8px 12px}.tariff-frame{width:100%;height:min(70vh,620px);border:1px solid var(--line);border-radius:8px;background:#fff}@media(max-width:760px){.panel-head{padding-right:0}.panel-actions{position:static;margin-top:10px}.tariff-open-btn{width:100%}.form-panel{padding:10px}.form-section{padding:10px}.inclusion-entry-grid,.hotel-grid{grid-template-columns:1fr}.inclusion-head,.hotel-head{display:none}.tariff-modal-card{padding:10px}.tariff-frame{height:72vh}}
+
+/* Final compact/sharp dashboard update */
+.custom-inclusion-wrap{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}.custom-inclusion-head{margin-bottom:8px}.custom-inclusion-row{display:grid;grid-template-columns:1fr 38px;gap:8px;align-items:center;margin-top:8px}.custom-inclusion-row input{height:38px}.hotel-row select,.hotel-row input{height:38px}.dashboard-view *:not(.quote-pdf):not(.quote-pdf *),.login-view *,.modal-mask *{border-radius:0!important}.tariff-open-btn,.small-btn,.primary-btn,.secondary-btn,.logout-btn,.nav-link,.check-pill,.duration-badge,.remove-inclusion,.remove-hotel,.remove-charge{border-radius:0!important}.form-panel,.preview-panel,.form-section,.modal-card,.tariff-frame,.preview-scroll,.fetched-card,.cost-breakdown{border-radius:0!important}.quote-form{gap:8px}.form-section{padding:10px}.section-head-row{margin-bottom:8px}.hotel-row{margin-top:6px;margin-bottom:6px}.check-row{gap:6px}.check-pill{padding:7px 9px}.login-form input,.quote-form input,.quote-form textarea,.quote-form select{border-radius:0!important;padding:8px 10px}.primary-btn,.secondary-btn,.small-btn{border-radius:0!important}
+@media(max-width:760px){.custom-inclusion-row{grid-template-columns:1fr 38px}.hotel-row{gap:6px}.custom-inclusion-wrap{margin-top:10px}}
+
+/* FINAL SHARP UI OVERRIDE - no curves anywhere in dashboard or preview */
+*, *::before, *::after { border-radius: 0 !important; }
+.login-card::before { display: none !important; }
+.logo-ring img, .pdf-logo img { border-radius: 0 !important; }
+
+
+/* Final Enquire Hotel + Mobile Menu restoration */
+.mobile-menu-btn{display:none;border:1px solid #3a372f;background:#151515;color:var(--gold);font-weight:900;padding:10px 12px;text-transform:uppercase;letter-spacing:.5px}
+.hotel-message-panel .preview-scroll{min-height:520px}.hotel-preview-scroll{background:#e9e4da}.hotel-preview-shell{background:#e3ded3;border:1px solid #d8d0c3;padding:20px;box-shadow:var(--shadow)}.hotel-preview-brand{background:#151515;color:var(--gold);display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:14px}.hotel-preview-brand img{width:42px;height:42px;object-fit:contain}.hotel-preview-brand small{display:block;color:#fff;font-size:11px;font-weight:700}.hotel-message-card{background:#fff;border-left:4px solid var(--gold);padding:20px;white-space:pre-wrap;font-weight:750;line-height:1.55;min-height:290px;color:#222}.hotel-workspace .form-section textarea{min-height:120px}
+@media(max-width:760px){.app-header{position:sticky;top:0;z-index:50;background:#181713}.mobile-menu-btn{display:block;width:100%;margin-top:10px;text-align:center}.top-nav{display:none;flex-direction:column;align-items:stretch;width:100%;margin-top:8px}.top-nav.open{display:flex}.top-nav .nav-link,.top-nav .logout-btn{width:100%;text-align:center;justify-content:center}.workspace{padding-top:10px}.hotel-preview-shell{padding:12px}.hotel-message-card{padding:14px;font-size:13px}}
+
+/* Final Payment module + hamburger mobile menu */
+.driver-pay-message-card{min-height:320px}
+.mobile-menu-btn{align-items:center;justify-content:center;gap:5px}
+.mobile-menu-btn span{display:block;width:22px;height:2px;background:var(--gold)}
+@media(max-width:760px){
+  .app-header{display:grid!important;grid-template-columns:1fr 44px;align-items:center;gap:8px;padding:10px 12px!important;background:#181713!important}
+  .app-header .brand-lockup{grid-column:1;min-width:0}
+  .mobile-menu-btn{grid-column:2;display:flex!important;width:44px!important;height:38px;margin-top:0!important;padding:0!important;text-align:center;justify-self:end;background:#151515!important;border:1px solid #3a372f!important}
+  .mobile-menu-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .mobile-menu-btn.open span:nth-child(2){opacity:0}
+  .mobile-menu-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .top-nav{grid-column:1/-1;display:none;flex-direction:column;align-items:stretch;width:100%;margin-top:6px}
+  .top-nav.open{display:flex!important}
+  .top-nav .nav-link,.top-nav .logout-btn{width:100%;text-align:center;justify-content:center}
+  .driver-pay-message-card{font-size:13px;min-height:300px}
+}
+
+/* PRINT / PDF HEADER FIX
+   Ensures dashboard mobile header/nav/hamburger never appears in downloaded PDFs. */
+@media print {
+  @page { size: A4; margin: 0; }
+
+  html,
+  body {
+    width: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+    overflow: visible !important;
+  }
+
+  .app-header,
+  .top-nav,
+  .mobile-menu-btn,
+  .form-panel,
+  .preview-head,
+  .site-footer,
+  .modal-mask,
+  .tariff-modal-card,
+  .panel-actions,
+  .sticky-actions,
+  .no-print {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  .dashboard-view,
+  .workspace,
+  .preview-panel,
+  .preview-scroll,
+  .module-view {
+    display: block !important;
+    position: static !important;
+    width: 210mm !important;
+    max-width: 210mm !important;
+    min-width: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: #fff !important;
+    overflow: visible !important;
+  }
+
+  .module-view.d-none {
+    display: none !important;
+  }
+
+  .quote-pdf {
+    width: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    box-shadow: none !important;
+    background: #fff !important;
+  }
+
+  .pdf-page {
+    display: block !important;
+    position: relative !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+
+  .pdf-page:last-child {
+    page-break-after: auto !important;
+    break-after: auto !important;
+  }
+}
+
+
+/* FINAL INVOICE ONLY — compact, one-page A4 presentation. Other document layouts unchanged. */
+.package-item-row{display:grid;grid-template-columns:minmax(0,1fr) 125px 38px;gap:8px;margin-top:8px;align-items:center}
+.package-item-row .remove-package-item{height:38px;border:1px solid #ded7ca;background:#fff;color:#a22;font-weight:900}
+.invoice-breakdown-input em{font-size:9px;font-style:normal;color:#8c7b48;text-transform:uppercase}
+.invoice-onepage{height:297mm!important;min-height:297mm!important;max-height:297mm!important;overflow:hidden!important;padding:8mm 11mm 8mm!important;background:#fbfaf7!important}
+.invoice-onepage::before{border-radius:0!important;inset:5mm!important}
+.invoice-onepage .pdf-brand-row{margin-bottom:3mm!important}
+.invoice-onepage .pdf-brand .pdf-logo{width:14mm!important;height:14mm!important;flex-basis:14mm!important}
+.invoice-onepage .pdf-company h1{font-size:11pt!important}
+.invoice-onepage .pdf-company p{font-size:6.5pt!important}
+.invoice-onepage .pdf-quote-box{font-size:7pt!important}
+.invoice-onepage .pdf-card{padding:2.2mm!important;box-shadow:none!important;border-radius:0!important}
+.invoice-onepage .pdf-card h3{font-size:8pt!important;margin:0 0 1mm!important}
+.invoice-onepage .pdf-data{font-size:7.3pt!important;line-height:1.18!important}
+.invoice-onepage .pdf-data th,.invoice-onepage .pdf-data td{padding:.65mm 0!important}
+.invoice-titlebar{display:flex;justify-content:space-between;align-items:center;gap:3mm;border-top:1px solid #d8d0c0;border-bottom:1px solid #d8d0c0;padding:2.4mm 0;margin-bottom:3mm}
+.invoice-titlebar h2{font-size:15pt;letter-spacing:.35mm;font-weight:900;margin:0}
+.invoice-titlebar p{font-size:7pt;margin:.7mm 0 0;color:#5f5a50}
+.invoice-status{font-size:7.2pt;font-weight:900;white-space:nowrap;padding:1.5mm 2.5mm;border:1px solid #151515}
+.invoice-status.paid{background:#f6ca24;color:#111}.invoice-status.pending{background:#fff3e4;color:#a54b19}
+.invoice-detail-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:3mm;margin-bottom:2mm}
+.invoice-kmline{background:#1b1b1b;color:#fff;font-size:7.2pt;padding:2mm 2.7mm;margin-bottom:3mm}
+.invoice-kmline b{color:#f5bd00}
+.invoice-table-heading{font-size:8.1pt;font-weight:900;letter-spacing:.25mm;border-left:3px solid #f4be00;padding:1mm 2mm;margin-top:2.6mm;margin-bottom:1.2mm}
+.invoice-table-heading small{font-size:6.7pt;text-transform:none;font-weight:600;letter-spacing:0;color:#777;margin-left:2mm}
+.invoice-line-table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:7.3pt;line-height:1.14;background:#fff}
+.invoice-line-table th{background:#191919;color:#ffc700;text-transform:uppercase;font-size:6.6pt;padding:1.35mm 2mm;text-align:left}
+.invoice-line-table td{border-bottom:1px solid #e6e1d8;padding:1.12mm 2mm;vertical-align:top;overflow-wrap:anywhere}
+.invoice-line-table .right{text-align:right;width:28mm;font-weight:800;white-space:nowrap}
+.invoice-line-table .invoice-index{width:12mm}
+.invoice-muted-line{font-size:7pt;background:#fff5d4;padding:1.7mm 2mm;border-left:3px solid #f3bc00}
+.invoice-warning-line{font-size:7pt;color:#b42d14;padding:1.7mm 2mm}
+.invoice-summary{display:grid;grid-template-columns:minmax(0,1fr);border:1px solid #ded8ca;margin-top:1mm;font-size:7.7pt}
+.invoice-sum-row{display:flex;justify-content:space-between;gap:2mm;align-items:center;padding:1.25mm 2.6mm;border-bottom:1px solid #eee7dc;min-width:0}
+.invoice-sum-row:nth-child(odd){border-right:0}
+.invoice-sum-row:last-child{border-bottom:0}
+.invoice-sum-row b{white-space:nowrap;text-align:right}
+.invoice-sum-row.invoice-total{background:#f8d04d;color:#111;font-weight:900}
+.invoice-sum-row.invoice-paid{background:#202020;color:#f8d04d;font-weight:900}
+.invoice-bottom-note{text-align:center;font-size:8pt;font-weight:700;margin-top:3.5mm;padding-top:2.5mm;border-top:1px solid #dfd6c8}
+.invoice-onepage.invoice-compact .invoice-line-table{font-size:6.9pt}.invoice-onepage.invoice-compact .invoice-line-table td{padding:.9mm 1.8mm}
+.invoice-onepage.invoice-tight .invoice-line-table{font-size:6.5pt}.invoice-onepage.invoice-tight .invoice-line-table td{padding:.7mm 1.6mm}
+.invoice-onepage.invoice-tight .invoice-titlebar{margin-bottom:2mm}.invoice-onepage.invoice-tight .invoice-kmline{margin-bottom:2mm}
+@media(max-width:760px){.package-item-row{grid-template-columns:1fr 94px 34px;gap:5px}.package-item-row input{min-width:0}.invoice-breakdown-input .fetch-help{font-size:11px}}
+@media print{.invoice-onepage{page-break-after:auto!important;break-after:auto!important}.invoice-onepage .invoice-bottom-note{break-inside:avoid!important}}
+
+/* Business payment switch: isolated strip, no changes to existing form/preview grids. */
+.payment-account-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 20px;margin:0 auto;max-width:1480px;border-bottom:1px solid #e7deca;background:#fffdf8;font-family:inherit}
+.payment-account-title{font-size:10px;font-weight:900;letter-spacing:.09em;color:#736953;white-space:nowrap}
+.payment-account-toggle{display:inline-flex;align-items:center;border:1px solid #d4cbb8;overflow:hidden;background:#fff;flex-shrink:0}
+.payment-account-option{background:#fff;color:#242424;border:0;border-right:1px solid #d4cbb8;border-radius:0!important;padding:8px 12px;font-size:12px;font-weight:800;line-height:1.2;cursor:pointer}
+.payment-account-option:last-child{border-right:0}
+.payment-account-option.active,.payment-account-option[aria-pressed="true"]{background:#f5bd00;color:#161616}
+.payment-account-option:focus-visible{outline:2px solid #111;outline-offset:-2px}
+.payment-account-summary{font-size:11px;line-height:1.4;color:#484239;min-width:0;overflow-wrap:anywhere}
+@media(max-width:768px){.payment-account-bar{padding:8px 12px;gap:7px}.payment-account-title{font-size:9px}.payment-account-option{padding:7px 9px;font-size:11px}.payment-account-summary{font-size:10px;flex-basis:100%}}
+@media print{.payment-account-bar{display:none!important}}
+/* Original CG mark; only enlarge uniformly in documents. */
+.pdf-brand-row .pdf-logo{width:20mm!important;height:20mm!important;flex:0 0 20mm!important}
+.pdf-brand-row .pdf-logo img{width:98%!important;height:98%!important;object-fit:contain!important}
+.pdf-brand-row .pdf-company h1{font-size:11.2pt;white-space:normal}
+.pdf-brand-row .pdf-company p{font-size:6.3pt;white-space:normal;line-height:1.22}
+.pdf-brand-row .pdf-company p span{white-space:normal;overflow-wrap:break-word}
+.pdf-brand-row .pdf-company .brand-subtitle{font-size:7.7pt;font-weight:800;color:#222}
+.pdf-brand-row .pdf-company .brand-details{margin-top:.6mm}
+.pdf-brand-row .pdf-company .brand-details span+span{margin-top:.4mm}
+.pdf-brand-row .pdf-quote-box{min-width:30mm}
+.pdf-inline-account{font-size:7.3pt;line-height:1.28;padding:2mm 2.5mm;background:#fff7d9;border-left:1mm solid #f5bd00;margin-top:3mm}
+.pdf-short-terms{font-size:6.8pt;line-height:1.25;margin-top:2mm;color:#585044}
+.pdf-terms-card.compact li{font-size:7.55pt;line-height:1.23;margin-bottom:.65mm}
+.invoice-onepage .pdf-brand .pdf-logo{width:20mm!important;height:20mm!important;flex-basis:20mm!important}
+.invoice-onepage .pdf-company h1{font-size:10.2pt!important}
+.invoice-onepage .pdf-company p{font-size:6pt!important;line-height:1.17!important}
+.invoice-account-info{font-size:6.5pt;margin-top:1.8mm;padding:1.2mm 1.8mm;background:#fff6d6;border-left:2px solid #f5bd00}
+.invoice-short-terms{font-size:5.7pt;line-height:1.16;color:#777;margin-top:1.2mm}
+.invoice-onepage .invoice-bottom-note{margin-top:2mm;padding-top:1.5mm}
+
+/* Glide Tourism: same layout, added fields only. */
+.hotel-grid{grid-template-columns:minmax(56px,.55fr) minmax(56px,.55fr) minmax(76px,1fr) minmax(76px,1fr) minmax(90px,1.1fr) minmax(75px,.85fr) 28px!important}
+.custom-inclusion-heading{display:grid;grid-template-columns:minmax(0,1fr) 110px 36px;gap:8px;margin-top:8px;font-size:10px;letter-spacing:.6px;font-weight:800;color:#776f62;text-transform:uppercase}
+.custom-inclusion-row{display:grid;grid-template-columns:minmax(0,1fr) 110px 36px!important;gap:8px;align-items:center}
+.custom-inclusion-row .inc-amount{min-width:0}
+.custom-inclusion-row button{height:37px;border:1px solid #ded7c8;background:#fff;color:#9b3211;font-weight:900}
+.tariff-suggest{display:block;background:#f3f1ec;color:#5c554b;font-size:11px;font-weight:600;padding:6px 8px;line-height:1.4;border-left:3px solid #d4a900}
+.tariff-validation{display:block;background:#fff0ec;color:#b52e16;font-weight:800;font-size:11px;padding:6px 8px;border-left:3px solid #b52e16}
+.tariff-validation[hidden]{display:none!important}
+.quote-form .tariff-invalid{border-color:#b52e16!important;background:#fffafa!important}
+.gt-tariff-table{overflow:auto;max-height:65vh;padding:10px 2px}
+.gt-tariff-table table{border-collapse:collapse;min-width:680px;width:100%;font-size:12px}
+.gt-tariff-table th,.gt-tariff-table td{padding:9px 12px;border:1px solid #dfd7ca;text-align:left}
+.gt-tariff-table th{background:#171717;color:#ffcb17}
+.gt-tariff-table tr:nth-child(even){background:#fcf8eb}
+.tariff-note{font-size:12px;color:#70695c}
+.pdf-brand-row .pdf-logo.logo-fallback:before{content:'G'!important}
+@media(max-width:760px){.hotel-grid{grid-template-columns:1fr!important}.hotel-row>*{min-width:0}.hotel-grid .hotel-name{grid-column:1/-1}.hotel-grid .remove-hotel{justify-self:end}.custom-inclusion-heading{grid-template-columns:minmax(0,1fr) 90px 31px}.custom-inclusion-row{grid-template-columns:minmax(0,1fr) 90px 31px!important}}
+@media print{.tariff-suggest,.tariff-validation{display:none!important}}

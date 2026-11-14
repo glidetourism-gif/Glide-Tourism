@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="assets/glide-logo.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=gt1">
+  <script src="assets/config.js?v=gt1"></script>
+  <script src="assets/api-bridge.js?v=gt1"></script>
+</head>
+<body>
+  <section id="loginScreen" class="login-view">
+    <div class="login-card">
+      <div class="brand-lockup center">
+        <div class="logo-ring"><img id="loginLogo" src="assets/glide-logo.png" alt="Glide Tourism logo"></div>
+        <div>
+          <h1>GLIDE TOURISM</h1>
+          <p>Live Billing Portal</p>
+        </div>
+      </div>
+
+      <div class="login-copy">
+        <p class="eyebrow">Secure Staff Login</p>
+        <h2>Welcome Back</h2>
+      </div>
+
+      <form id="loginForm" class="login-form">
+        <label>
+          <span>Username</span>
+          <input id="loginUser" type="text" autocomplete="username">
+        </label>
+        <label>
+          <span>Password</span>
+          <div class="password-wrap">
+            <input id="loginPass" type="password" autocomplete="current-password">
+            <button id="togglePassword" type="button" class="eye-btn" aria-label="Show password">👁</button>
+          </div>
+        </label>
+        <button id="loginBtn" type="submit">Login</button>
+        <p id="loginMsg" class="login-error"></p>
+        <small>Powered by <a href="https://marcinmind.in/" target="_blank">Marc in Mind Technologies</a></small>
+      </form>
+    </div>
+  </section>
+
+  <section id="appScreen" class="dashboard-view" hidden>
+    <header class="app-header no-print">
+      <div class="brand-lockup">
+        <div class="logo-ring"><img id="headerLogo" src="assets/glide-logo.png" alt="Glide Tourism logo"></div>
+        <div>
+          <h1>GLIDE TOURISM</h1>
+          <p>Welcome, <span id="staffName">Staff</span></p>
+        </div>
+      </div>
+      <button id="mobileMenuBtn" class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="topNav"><span></span><span></span><span></span></button>
+      <nav id="topNav" class="top-nav">
+        <button class="nav-link active" type="button" data-module="quote">Quote Generator</button>
+        <button class="nav-link" type="button" data-module="advance">Advance Receipt</button>
+        <button class="nav-link" type="button" data-module="assign">Assign Driver</button>
+        <button class="nav-link" type="button" data-module="invoice">Final Invoice</button>
+        <button class="nav-link" type="button" data-module="hotel">Enquire Hotel</button>
+        <button class="nav-link" type="button" data-module="driverPay">Final Payment</button>
+        <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+      </nav>
+    </header>
+    <div class="payment-account-bar no-print" aria-label="Payment account">
+      <span class="payment-account-title">GLIDE TOURISM PAYMENT</span>
+      <div class="payment-account-summary">Account: 34890210000878 · IFSC: UCBA0003489 · GPay / PhonePe: 8667737237</div>
+    </div>
+
+    <main id="quoteModule" class="workspace module-view">
+      <section class="form-panel no-print">
+        <div class="panel-head">
+          <p class="eyebrow">Quote Generator</p>
+          <h2>Create Quotation</h2>
+          <p>Use editable KM, rates, driver bata and itemized hotel/inclusion costs. Preview updates live.</p>
+          <div class="auto-meta">
+            <span>Last Quote: <b id="lastQuoteNoText">--</b></span>
+            <span>Date: <b id="autoDateText">--</b></span>
+          </div>
+          <div class="panel-actions">
+            <button id="vehicleTariffBtn" type="button" class="tariff-open-btn">Vehicle Tariff</button>
+          </div>
+        </div>
+
+        <form id="quoteForm" class="quote-form" autocomplete="off">
+          <section class="form-section fetch-existing-quote">
+            <h3>Update Existing Quote</h3>
+            <div class="form-grid three fetch-grid">
+              <label><span>Month Code</span><input id="quoteFetchMonthCode" type="text" maxlength="1" class="text-uppercase"></label>
+              <label><span>Quote No</span><input id="quoteFetchRunningNo" type="text" inputmode="numeric"></label>
+              <button id="quoteFetchBtn" type="button" class="primary-btn form-fetch-btn">Fetch</button>
+            </div>
+            <small class="fetch-help">Example: F + 25 fetches QF/26-27/25 and fills the quotation form for editing.</small>
+            <p id="quoteFetchMsg" class="mini-msg"></p>
+          </section>
+
+          <section class="form-section">
+            <h3>Quotation & Client</h3>
+            <input id="runningNo" name="runningNo" type="hidden">
+            <input id="quoteDateDisplay" type="hidden">
+            <div class="form-grid two">
+              <label><span>Name</span><input id="clientName" name="clientName" type="text"></label>
+              <label><span>Phone Number</span><input id="phone" name="phone" type="tel"></label>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <h3>Journey</h3>
+            <div class="form-grid two">
+              <label><span>Intermediate Location</span><input id="intermediateLocation" name="intermediateLocation" type="text"></label>
+              <label><span>Vehicle Type</span>
+                <select id="vehicleType" name="vehicleType">
+                  <option value="">Select vehicle</option>
+                  <option>Sedan</option>
+                  <option>Ertiga</option>
+                  <option>Innova</option>
+                  <option>Crysta</option>
+                  <option>Tempo Traveller 12 Seater</option>
+                  <option>Urbania 12 Seater</option>
+                  <option>Urbania 17 Seater</option>
+                  <option value="Other / Manual Vehicle">Other / Manual Vehicle</option>
+                </select>
+              </label>
+              <label id="manualVehicleWrap" class="d-none"><span>Manual Vehicle Name</span><input id="manualVehicleName" name="manualVehicleName" type="text" placeholder="Enter vehicle name"></label>
+              <label id="manualKmDayWrap" class="d-none"><span>Manual Minimum KM / Day</span><input id="manualVehicleKmDay" type="number" min="1" placeholder="e.g. 300"></label>
+              <label id="manualBataDayWrap" class="d-none"><span>Manual Driver Bata / Day (₹)</span><input id="manualVehicleBataDay" type="number" min="0" placeholder="e.g. 500"></label>
+              <label id="manualRateWrap" class="d-none"><span>Suggested Manual Rate / KM (₹)</span><input id="manualVehicleRate" type="number" min="0" placeholder="e.g. 20"></label>
+              <label><span>Pickup</span><input id="pickup" name="pickup" type="text"></label>
+              <label><span>Drop</span><input id="drop" name="drop" type="text"></label>
+              <label class="date-click"><span>Pickup Date</span><input id="pickupDate" name="pickupDate" type="date"></label>
+              <label class="date-click"><span>Drop Date</span><input id="dropDate" name="dropDate" type="date"></label>
+            </div>
+            <div class="check-wrap cost-split-grid">
+              <span>Vehicle AC Option</span>
+              <div class="check-row">
+                <label class="check-pill"><input type="radio" name="acStatus" value="AC" checked> AC</label>
+                <label class="check-pill"><input type="radio" name="acStatus" value="Non AC"> Non AC</label>
+                <span id="durationBadge" class="duration-badge">Duration: --</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <h3>Tariff Calculation <span>editable · Bangalore & Mysore</span></h3>
+            <div class="form-grid two">
+              <label><span>KM Included</span><small class="tariff-suggest" id="minKmSuggestion">Select vehicle and travel dates</small><input id="kmIncluded" name="kmIncluded" type="number" min="0"><small class="tariff-validation" id="kmError" hidden></small></label>
+              <label><span>Rate per KM (₹)</span><small class="tariff-suggest" id="kmRateSuggestion">Suggested rate appears on vehicle selection</small><input id="extraKmCharge" name="extraKmCharge" type="number" min="0" step="0.01"></label>
+              <label><span>Driver Bata — Total Trip (₹)</span><small class="tariff-suggest" id="bataSuggestion">Select vehicle and travel dates</small><input id="dayRent" name="dayRent" type="number" min="0" step="0.01"><small class="tariff-validation" id="bataError" hidden></small></label>
+              <label><span>Total Hotel Cost (₹) <em>from hotel rows</em></span><small class="tariff-suggest">Sum of manually entered hotel costs</small><input id="totalHotelCost" name="totalHotelCost" type="number" min="0" readonly></label>
+            </div>
+            <div class="form-grid three cost-split-grid">
+              <label><span>Checkpost & Tolls (₹)</span><input id="checkpostTolls" name="checkpostTolls" type="number" min="0"></label>
+              <label><span>Sightseeing Parking (₹)</span><input id="sightseeingParking" name="sightseeingParking" type="number" min="0"></label>
+              <label><span>Permit State</span><select id="permitState"><option value="none">No Permit</option><option value="tn">Tamil Nadu</option><option value="kerala">Kerala</option><option value="custom">Manual / Other</option></select></label>
+              <label><span>Permit Amount (₹)</span><small class="tariff-suggest" id="permitSuggestion">Select a state for a suggested amount</small><input id="permit" name="permit" type="number" min="0" step="0.01"></label>
+            </div>
+            <div id="costBreakdown" class="cost-breakdown">Select the vehicle and travel dates to calculate the package cost.</div>
+          </section>
+
+          <section class="form-section">
+            <div class="section-head-row">
+              <h3>Hotels <span>leave blank if no hotel</span></h3>
+              <button id="addHotelBtn" type="button" class="small-btn">+ Hotel</button>
+            </div>
+            <div class="hotel-grid hotel-head"><span>Nights</span><span>Rooms</span><span>Location</span><span>Hotel Type</span><span>Hotel Name</span><span>Hotel Cost (₹)</span><span></span></div>
+            <div id="hotelRows"></div>
+          </section>
+
+          <section class="form-section">
+            <h3>Inclusion Options</h3>
+            <div class="check-row">
+              <label class="check-pill"><input id="incBreakfast" type="checkbox"> Breakfast</label>
+              <label class="check-pill"><input id="incLunch" type="checkbox"> Lunch</label>
+              <label class="check-pill"><input id="incDinner" type="checkbox"> Dinner</label>
+              <label class="check-pill"><input id="incCampfire" type="checkbox"> Campfire</label>
+              <label class="check-pill"><input id="incTickets" type="checkbox"> Tickets</label>
+            </div>
+            <div class="custom-inclusion-wrap">
+              <div class="section-head-row custom-inclusion-head">
+                <h3>Custom Inclusions <span>description + amount (added to package)</span></h3>
+                <button id="addInclusionBtn" type="button" class="small-btn">+ Inclusion</button>
+              </div>
+              <div class="custom-inclusion-heading"><span>Inclusion / Description</span><span>Amount (₹)</span></div><div id="inclusionRows"></div>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <h3>Cost & Advance</h3>
+            <div class="form-grid two">
+              <label><span>Total Package Cost <em>auto calculated</em></span><input id="packageCost" type="text" readonly></label>
+              <label><span>Advance Needed To Confirm Booking</span><input id="advanceAmount" name="advanceAmount" type="number" min="0"></label>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <h3>Itinerary</h3>
+            <textarea id="itineraryText" name="itineraryText" rows="14"></textarea>
+          </section>
+
+          <section class="form-section">
+            <h3>Notes <span>internal / optional</span></h3>
+            <textarea id="notes" name="notes" rows="4"></textarea>
+          </section>
+
+          <div class="button-row sticky-actions">
+            <button id="clearBtn" type="button" class="secondary-btn action-btn">Clear</button>
+            <button id="printBtn" type="button" class="secondary-btn action-btn">PDF</button>
+            <button id="generateBtn" type="button" class="primary-btn action-btn">Save</button>
+          </div>
+          <p id="saveMsg" class="mini-msg"></p>
+        </form>
+      </section>
+
+      <section class="preview-panel"><div class="preview-head no-print"><div><h2>Live Preview</h2><p class="eyebrow">Quotation PDF</p></div></div><div class="preview-scroll"><div id="quotePreview" class="quote-pdf"></div></div></section>
+    </main>
+
+    <main id="advanceModule" class="workspace module-view d-none">
+      <section class="form-panel no-print">
+        <div class="panel-head"><p class="eyebrow">Billing</p><h2>Advance Receipt</h2><p>Enter quotation number, fetch customer details, enter advance paid and save the receipt.</p></div>
+        <form id="advanceForm" class="quote-form" autocomplete="off">
+          <section class="form-section"><h3>Fetch Quote</h3><div class="form-grid three fetch-grid"><label><span>Month Code</span><input id="advMonthCode" type="text" maxlength="1" class="text-uppercase"></label><label><span>Quote No</span><input id="advRunningNo" type="text" inputmode="numeric"></label><button id="advFetchBtn" type="button" class="primary-btn form-fetch-btn">Fetch</button></div><small class="fetch-help">Example: F + 25 fetches QF/26-27/25.</small><div id="advFetched" class="fetched-card">No quote fetched.</div></section>
+          <section class="form-section"><h3>Receipt Entry</h3><div class="form-grid two"><label><span>Advance Paid</span><input id="advPaid" type="number" min="0"></label><label><span>Balance Due <em>auto</em></span><input id="advBalance" type="text" readonly></label></div><label class="mt-3"><span>Notes</span><textarea id="advNotes" rows="3"></textarea></label></section>
+          <div class="button-row sticky-actions"><button id="advClearBtn" type="button" class="secondary-btn action-btn">Clear</button><button id="advPrintBtn" type="button" class="secondary-btn action-btn">PDF</button><button id="advWhatsAppBtn" type="button" class="secondary-btn action-btn">Message Customer</button><button id="advSaveBtn" type="button" class="primary-btn action-btn">Save</button></div><p id="advMsg" class="mini-msg"></p>
+        </form>
+      </section>
+      <section class="preview-panel"><div class="preview-head no-print"><div><h2>Live Preview</h2><p class="eyebrow">Advance Receipt</p></div></div><div class="preview-scroll"><div id="advancePreview" class="quote-pdf"></div></div></section>
+    </main>
+
+    <main id="invoiceModule" class="workspace module-view d-none">
+      <section class="form-panel no-print">
+        <div class="panel-head"><p class="eyebrow">Billing</p><h2>Final Invoice</h2><p>Fetch quote details, enter running KM, payments and additional charges, then save final invoice.</p></div>
+        <form id="invoiceForm" class="quote-form" autocomplete="off">
+          <section class="form-section"><h3>Fetch Quote</h3><div class="form-grid three fetch-grid"><label><span>Month Code</span><input id="invMonthCode" type="text" maxlength="1" class="text-uppercase"></label><label><span>Quote No</span><input id="invRunningNo" type="text" inputmode="numeric"></label><button id="invFetchBtn" type="button" class="primary-btn form-fetch-btn">Fetch</button></div><small class="fetch-help">Example: F + 25 fetches QF/26-27/25.</small><div id="invFetched" class="fetched-card">No quote fetched.</div></section>
+          <section class="form-section"><h3>Vehicle & Driver</h3><div class="form-grid two"><label><span>Driver Name</span><input id="driverName" type="text"></label><label><span>Driver Phone</span><input id="driverPhone" type="tel"></label><label><span>Vehicle Number</span><input id="vehicleNumber" type="text"></label><label><span>KM Ran</span><input id="kmRan" type="number" min="0"></label></div></section>
+          <section class="form-section invoice-breakdown-input no-print"><div class="section-head-row"><h3>Package Cost Breakdown <em>included in package</em></h3><button id="addPackageItemBtn" type="button" class="small-btn">+ Add</button></div><small class="fetch-help">Free-text item descriptions and amounts. This breakdown is already included in the quotation and is not added again.</small><div id="packageCostReference" class="mini-msg"></div><div id="packageItemRows"></div></section>
+          <section class="form-section"><h3>Payments</h3><div class="form-grid two"><label><span>Payment Method</span><select id="paymentMethod"><option>Cash</option><option>Online Transfer</option><option>UPI</option><option>Card</option></select></label><label><span>Payment After Pickup</span><input id="paymentAfterPickup" type="number" min="0"></label><label><span>Second Payment</span><input id="secondPayment" type="number" min="0"></label><label><span>Final Balance Paid</span><input id="finalBalancePaid" type="number" min="0" step="0.01" placeholder="Amount received"></label><label><span>Balance Remaining <em>auto</em></span><input id="finalPayment" type="text" readonly></label></div></section>
+          <section class="form-section"><div class="section-head-row"><h3>Additional Charges</h3><button id="addChargeBtn" type="button" class="small-btn">+ Charge</button></div><div id="chargeRows"></div></section>
+          <section class="form-section"><h3>Notes</h3><textarea id="invNotes" rows="3"></textarea></section>
+          <div class="button-row sticky-actions"><button id="invClearBtn" type="button" class="secondary-btn action-btn">Clear</button><button id="invPrintBtn" type="button" class="secondary-btn action-btn">PDF</button><button id="invSaveBtn" type="button" class="primary-btn action-btn">Save</button></div><p id="invMsg" class="mini-msg"></p>
+        </form>
+      </section>
+      <section class="preview-panel"><div class="preview-head no-print"><div><h2>Live Preview</h2><p class="eyebrow">Final Invoice</p></div></div><div class="preview-scroll"><div id="invoicePreview" class="quote-pdf"></div></div></section>
+    </main>
+
+    <main id="assignModule" class="workspace module-view d-none">
+      <section class="form-panel no-print">
+        <div class="panel-head"><p class="eyebrow">Operations</p><h2>Assign Driver</h2><p>Fetch quotation details, assign driver and vehicle, then save customer and driver trip PDFs.</p></div>
+        <form id="assignForm" class="quote-form" autocomplete="off">
+          <section class="form-section"><h3>Fetch Quote</h3><div class="form-grid three fetch-grid"><label><span>Month Code</span><input id="asgMonthCode" type="text" maxlength="1" class="text-uppercase"></label><label><span>Quote No</span><input id="asgRunningNo" type="text" inputmode="numeric"></label><button id="asgFetchBtn" type="button" class="primary-btn form-fetch-btn">Fetch</button></div><small class="fetch-help">Example: F + 25 fetches QF/26-27/25.</small><div id="asgFetched" class="fetched-card">No quote fetched.</div></section>
+          <section class="form-section"><h3>Booking & Driver</h3><div class="form-grid two"><label><span>Booking ID <em>auto generated</em></span><input id="bookingId" type="text" readonly></label><label><span>Vehicle Type <em>optional override</em></span><input id="asgVehicleType" type="text"></label><label><span>Driver Name</span><input id="asgDriverName" type="text"></label><label><span>Driver Phone</span><input id="asgDriverPhone" type="tel"></label><label><span>Vehicle Number</span><input id="asgVehicleNumber" type="text"></label></div></section>
+          <section class="form-section"><h3>Pickup & Drop</h3><div class="form-grid two"><label><span>Pickup Date <em>from quote</em></span><input id="asgPickupDateDisplay" type="text" readonly></label><label><span>Pickup Time <em>manual</em></span><input id="asgPickupTime" type="time"></label><label><span>Drop Date <em>from quote</em></span><input id="asgDropDateDisplay" type="text" readonly></label><label><span>Drop Time <em>manual</em></span><input id="asgDropTime" type="time"></label><label><span>Pickup From</span><input id="asgPickupFrom" type="text"></label><label><span>Drop At</span><input id="asgDropAt" type="text"></label></div></section>
+          <section class="form-section"><h3>Customer Payment Reminder</h3><div class="form-grid two"><label><span>Initial Payment After Pickup</span><input id="asgInitialPayment" type="number" min="0"></label><label><span>Remaining Amount Last Day</span><input id="asgFinalBalance" type="number" min="0"></label></div><small class="fetch-help">This is shown only in the customer trip confirmation PDF.</small></section>
+          <section class="form-section"><h3>Driver Notes</h3><textarea id="asgNotes" rows="3"></textarea></section>
+          <div class="button-row sticky-actions"><button id="asgClearBtn" type="button" class="secondary-btn action-btn">Clear</button><button id="asgPrintBtn" type="button" class="secondary-btn action-btn">PDF</button><button id="asgSaveBtn" type="button" class="primary-btn action-btn">Save</button></div><p id="asgMsg" class="mini-msg"></p>
+        </form>
+      </section>
+      <section class="preview-panel"><div class="preview-head no-print"><div><h2>Live Preview</h2><p class="eyebrow">Customer + Driver PDFs</p></div></div><div class="preview-scroll"><div id="assignPreview" class="quote-pdf"></div></div></section>
+    </main>
+
+    <main id="hotelModule" class="workspace hotel-workspace module-view d-none">
+      <section class="form-panel no-print">
+        <div class="panel-head"><p class="eyebrow">Hotel Enquiry</p><h2>Enquire Hotel</h2><p>Enter the hotel and stay requirement. Enquire Now opens WhatsApp directly with the prepared message.</p></div>
+        <form id="hotelForm" class="quote-form" autocomplete="off">
+          <section class="form-section"><h3>Hotel</h3><div class="form-grid two"><label><span>Hotel Name</span><input id="hotelName" type="text" placeholder="e.g., Florence Villa"></label><label><span>Hotel WhatsApp Number</span><input id="hotelWhatsapp" type="tel" placeholder="e.g., 9876543210 or +91 9876543210"></label></div></section>
+          <section class="form-section"><h3>Guest Requirement</h3><div class="form-grid three"><label><span>Adults</span><input id="hotelAdults" type="number" min="0" value="2"></label><label><span>Kids</span><input id="hotelKids" type="number" min="0" value="0"></label><label><span>Rooms Required</span><input id="hotelRoomsRequired" type="number" min="1" value="1"></label></div></section>
+          <section class="form-section"><h3>Stay Dates</h3><div class="form-grid two"><label class="date-click"><span>Check-in Date</span><input id="hotelCheckin" type="date"></label><label class="date-click"><span>Check-out Date</span><input id="hotelCheckout" type="date"></label></div></section>
+          <section class="form-section"><h3>Add-ons <span>optional</span></h3><div class="check-row"><label class="check-pill"><input id="hotelBreakfast" type="checkbox"> Breakfast</label><label class="check-pill"><input id="hotelLunch" type="checkbox"> Lunch</label><label class="check-pill"><input id="hotelDinner" type="checkbox"> Dinner</label><label class="check-pill"><input id="hotelCampfire" type="checkbox"> Campfire</label><label class="check-pill"><input id="hotelSafari" type="checkbox"> Safari</label></div></section>
+          <section class="form-section"><h3>Additional Requirement <span>optional</span></h3><textarea id="hotelRequirement" rows="4" placeholder="Any room preference or special requirement"></textarea></section>
+          <div class="button-row sticky-actions"><button id="hotelClearBtn" type="button" class="secondary-btn action-btn">Clear</button><button id="hotelEnquireBtn" type="button" class="primary-btn action-btn">Enquire Now ↗</button></div><p id="hotelMsg" class="mini-msg"></p>
+        </form>
+      </section>
+      <section class="preview-panel hotel-message-panel"><div class="preview-head no-print"><div><h2>Message Preview</h2><p class="eyebrow">WhatsApp Enquiry</p></div></div><div class="preview-scroll hotel-preview-scroll"><div class="hotel-preview-shell"><div class="hotel-preview-brand"><img src="assets/glide-logo.png" alt="CG"><div><b>Glide Tourism</b><small>Hotel enquiry message</small></div></div><div id="hotelPreview" class="hotel-message-card"></div></div></div></section>
+    </main>
+
+    <main id="driverPayModule" class="workspace driver-pay-workspace module-view d-none">
+      <section class="form-panel no-print">
+        <div class="panel-head"><p class="eyebrow">Driver Settlement</p><h2>Final Payment</h2><p>Calculate driver final payment and send the calculation by WhatsApp.</p></div>
+        <form id="driverPayForm" class="quote-form" autocomplete="off">
+          <section class="form-section"><h3>Driver</h3><div class="form-grid two"><label><span>Driver Name</span><input id="dpDriverName" type="text" placeholder="Driver name"></label><label><span>Driver WhatsApp Number</span><input id="dpDriverPhone" type="tel" placeholder="e.g., 9876543210"></label></div></section>
+          <section class="form-section"><h3>Calculation Type</h3><div class="form-grid two"><label><span>Payment Mode</span><select id="dpMode"><option value="dayKm">Day Rent + KM Charges</option><option value="fixed">Fixed Amount</option></select></label><label><span>CC Deduction</span><select id="dpCc"><option value="no">No CC</option><option value="yes">Yes - 5%</option></select></label></div></section>
+          <section id="dpDayKmSection" class="form-section"><h3>Day Rent + KM</h3><div class="form-grid three"><label class="date-click"><span>Pickup Date</span><input id="dpPickupDate" type="date"></label><label class="date-click"><span>Drop Date</span><input id="dpDropDate" type="date"></label><label><span>No. of Days <em>auto</em></span><input id="dpDays" type="text" readonly></label><label><span>Day Rent</span><input id="dpDayRent" type="number" min="0"></label><label><span>KM Charge</span><input id="dpKmCharge" type="number" min="0"></label><label><span>Distance Travelled</span><input id="dpDistance" type="number" min="0"></label></div></section>
+          <section id="dpFixedSection" class="form-section d-none"><h3>Fixed Amount</h3><div class="form-grid two"><label><span>Fixed Amount</span><input id="dpFixedAmount" type="number" min="0"></label></div></section>
+          <section class="form-section"><h3>Add-ons <span>optional</span></h3><div class="form-grid three"><label><span>Tolls</span><input id="dpTolls" type="number" min="0"></label><label><span>Parking</span><input id="dpParking" type="number" min="0"></label><label><span>Interstate Permit</span><input id="dpPermit" type="number" min="0"></label><label><span>Driver Bata</span><input id="dpBata" type="number" min="0"></label><label><span>Breakage</span><input id="dpBreakage" type="number" min="0"></label><label><span>Advance Paid</span><input id="dpAdvance" type="number" min="0"></label></div></section>
+          <div class="button-row sticky-actions"><button id="dpClearBtn" type="button" class="secondary-btn action-btn">Clear</button><button id="dpWhatsAppBtn" type="button" class="primary-btn action-btn">Send WhatsApp ↗</button></div><p id="dpMsg" class="mini-msg"></p>
+        </form>
+      </section>
+      <section class="preview-panel driver-pay-message-panel"><div class="preview-head no-print"><div><h2>Message Preview</h2><p class="eyebrow">Driver WhatsApp</p></div></div><div class="preview-scroll hotel-preview-scroll"><div class="hotel-preview-shell"><div class="hotel-preview-brand"><img src="assets/glide-logo.png" alt="CG"><div><b>Glide Tourism</b><small>Driver final payment message</small></div></div><div id="driverPayPreview" class="hotel-message-card driver-pay-message-card"></div></div></div></section>
+    </main>
+
+    <footer class="site-footer no-print">Powered by <a href="https://marcinmind.in/" target="_blank">Marc in Mind Technologies</a></footer>
+  </section>
+
+  <div id="duplicateModal" class="modal-mask d-none no-print"><div class="modal-card"><h3>Duplicate Quote Number</h3><p id="duplicateText"></p><div class="modal-actions"><button id="overwriteBtn" type="button" class="primary-btn">Overwrite Existing Quote</button><button id="nextNoBtn" type="button" class="secondary-btn">Create With Next Number</button><button id="cancelDupBtn" type="button" class="secondary-btn">Cancel</button></div></div></div>
+
+  <div id="vehicleTariffModal" class="modal-mask d-none no-print"><div class="modal-card tariff-modal-card"><div class="tariff-modal-head"><h3>Vehicle Tariff Chart</h3><button id="vehicleTariffCloseBtn" type="button" class="secondary-btn tariff-close-btn">Close</button></div><div class="gt-tariff-table" id="vehicleTariffTable"></div></div></div>
+
+  <div id="confirmModal" class="modal-mask d-none no-print"><div class="modal-card"><h3 id="confirmTitle">Confirm</h3><p id="confirmText"></p><div class="modal-actions"><button id="confirmYesBtn" type="button" class="primary-btn">Yes</button><button id="confirmNoBtn" type="button" class="secondary-btn">No</button></div></div></div>
+
+  <script src="assets/script.js?v=45"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
