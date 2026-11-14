@@ -9,7 +9,7 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymkCXmVzYgcaqQ
 const ACTIONS = new Set([
   'login', 'getQuoteSequenceInfo', 'fetchQuoteByParts', 'generateQuote',
   'generateAdvanceReceipt', 'fetchInvoiceContextByParts',
-  'generateFinalInvoice', 'generateDriverAssignment'
+  'generateFinalInvoice', 'generateDriverAssignment', 'fetchAssignContextByParts'
 ]);
 
 const json = (value, status = 200) => new Response(JSON.stringify(value), {
