@@ -724,6 +724,87 @@ We look forward to serving you! 😊`;
     $('asgClearBtn').addEventListener('click',clearAssign);
     $('asgPrintBtn').addEventListener('click',()=>printCurrent(buildAssignPrintName()));
     $('asgSaveBtn').addEventListener('click',saveAssign);
+    addDriverMessageLink();
+  }
+
+  function addDriverMessageLink(){
+    if($('asgDriverMessageBtn') || !$('asgSaveBtn')) return;
+    const link=document.createElement('a');
+    link.id='asgDriverMessageBtn';
+    link.className='secondary-btn action-btn';
+    link.textContent='Driver Message';
+    link.href='#';
+    link.target='_blank';
+    link.rel='noopener noreferrer';
+    link.style.textDecoration='none';
+    link.addEventListener('click',event=>{
+      try {
+        // Read current fields at click time, including unsaved edits.
+        link.href=driverMessageLink();
+        setMsg('asgMsg','Driver message ready. Review it in WhatsApp before sending.','good');
+      } catch(error) {
+        event.preventDefault();
+        setMsg('asgMsg',error.message||String(error),'bad');
+      }
+    });
+    $('asgSaveBtn').parentNode.insertBefore(link,$('asgSaveBtn'));
+  }
+
+  function driverMessageDateTime(dateText,time){
+    if(!/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(String(time||''))) return null;
+    return combineQuoteDateTime(dateText,time);
+  }
+  function driverMessagePhone(value){
+    const raw=String(value||'').trim();
+    let digits=raw.replace(/\D/g,'');
+    if(raw.startsWith('00')) digits=digits.slice(2);
+    if(digits.length===10 && !raw.startsWith('+') && !raw.startsWith('00')) digits='91'+digits;
+    if(!/^[1-9]\d{10,14}$/.test(digits)) throw new Error('Enter a valid driver phone number, including country code for international numbers.');
+    return digits;
+  }
+  function driverMessageDate(date){
+    const month=date.toLocaleDateString('en-GB',{month:'long'});
+    const weekday=date.toLocaleDateString('en-GB',{weekday:'long'});
+    return `${date.getDate()} ${month} ${date.getFullYear()} (${weekday})`;
+  }
+  function driverMessageTime(date){
+    const hours=date.getHours();
+    return `${hours%12||12}:${String(date.getMinutes()).padStart(2,'0')} ${hours>=12?'PM':'AM'}`;
+  }
+  function driverMessageText(q){
+    if(!q) throw new Error('Fetch quote first.');
+    const driverName=String($('asgDriverName').value||'').trim();
+    if(!driverName) throw new Error('Enter the driver name.');
+    const pickup=driverMessageDateTime(q.pickupDateIso||q.pickupDate,$('asgPickupTime').value);
+    const drop=driverMessageDateTime(q.dropDateIso||q.dropDate,$('asgDropTime').value);
+    if(!pickup || !drop) throw new Error('Enter valid pickup and drop dates and times.');
+    if(drop<pickup) throw new Error('Drop date and time must be on or after pickup.');
+    const pickupFrom=String($('asgPickupFrom').value||q.pickup||'').trim();
+    const destination=String(q.intermediateLocation||'').trim();
+    const dropAt=String($('asgDropAt').value||q.drop||'').trim();
+    if(!pickupFrom || !destination || !dropAt) throw new Error('Pickup, destination and drop locations are required.');
+    const customerName=String(q.clientName||'').trim();
+    const customerPhone=String(q.phone||'').trim();
+    if(!customerName || !customerPhone) throw new Error('Customer name and contact number are required in the quotation.');
+    const dateOnly=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const duration=calcDuration(dateOnly(pickup),dateOnly(drop));
+    return [
+      `Dear ${driverName},`,
+      'Here are the trip details for your reference:',
+      '',
+      `> Pickup: ${driverMessageDate(pickup)} at ${driverMessageTime(pickup)} – ${pickupFrom}`,
+      `> Destination: ${destination}`,
+      `> Drop: ${driverMessageDate(drop)} at ${driverMessageTime(drop)} – ${dropAt}`,
+      `> Duration: ${duration.days} ${duration.days===1?'Day':'Days'} / ${duration.nights} ${duration.nights===1?'Night':'Nights'}`,
+      '',
+      `Customer Name: ${customerName}`,
+      `Contact Number: ${customerPhone}`
+    ].join('\n');
+  }
+  function driverMessageLink(){
+    const message=driverMessageText(state.assignQuote);
+    const phone=driverMessagePhone($('asgDriverPhone').value);
+    return 'https://wa.me/'+phone+'?text='+encodeURIComponent(message);
   }
 
   function fetchAssignQuote(){
@@ -756,7 +837,7 @@ We look forward to serving you! 😊`;
   }
 
   function clearAssign(){ showConfirm('Are you sure you want to clear the entries?', () => { $('assignForm').reset(); state.assignQuote=null; $('asgFetched').textContent='No quote fetched.'; setMsg('asgMsg',''); updateAssignPreview(); }, 'Clear entries'); }
-  function saveAssign(){ if(!state.assignQuote){ setMsg('asgMsg','Fetch quote first.','bad'); return; } $('asgSaveBtn').disabled=true; setMsg('asgMsg','Saving driver assignment...'); google.script.run.withSuccessHandler(res=>{ $('asgSaveBtn').disabled=false; if(!res?.ok){ setMsg('asgMsg',res?.message||'Save failed','bad'); return; } if(res.bookingId) $('bookingId').value=res.bookingId; updateAssignPreview(); setMsg('asgMsg',`${res.message} Booking ID: ${res.bookingId}`,'good'); if(res.customerPdfUrl && confirm(`${res.bookingId} saved. Open customer PDF now?`)) window.open(res.customerPdfUrl,'_blank'); }).withFailureHandler(err=>{ $('asgSaveBtn').disabled=false; setMsg('asgMsg',err.message||String(err),'bad'); }).generateDriverAssignment({ token:state.token, quoteNo:state.assignQuote.quoteNo, assignedVehicleType:$('asgVehicleType').value, driverName:$('asgDriverName').value, driverPhone:$('asgDriverPhone').value, vehicleNumber:$('asgVehicleNumber').value, pickupTime:$('asgPickupTime').value, dropTime:$('asgDropTime').value, pickupFrom:$('asgPickupFrom').value, dropAt:$('asgDropAt').value, initialPaymentAfterPickup:$('asgInitialPayment').value, finalDayBalance:$('asgFinalBalance').value, notes:$('asgNotes').value,paymentAccount:'glide' }); }
+  function saveAssign(){ if(!state.assignQuote){ setMsg('asgMsg','Fetch quote first.','bad'); return; } $('asgSaveBtn').disabled=true; setMsg('asgMsg','Saving driver and vehicle details...'); google.script.run.withSuccessHandler(res=>{ $('asgSaveBtn').disabled=false; if(!res?.ok){ setMsg('asgMsg',res?.message||'Save failed','bad'); return; } if(res.bookingId) $('bookingId').value=res.bookingId; updateAssignPreview(); setMsg('asgMsg',`${res.message} Booking ID: ${res.bookingId}`,'good'); if(res.customerPdfUrl && confirm(`${res.bookingId} saved. Open Driver and Vehicle Details PDF now?`)) window.open(res.customerPdfUrl,'_blank'); }).withFailureHandler(err=>{ $('asgSaveBtn').disabled=false; setMsg('asgMsg',err.message||String(err),'bad'); }).generateDriverAssignment({ token:state.token, quoteNo:state.assignQuote.quoteNo, assignedVehicleType:$('asgVehicleType').value, driverName:$('asgDriverName').value, driverPhone:$('asgDriverPhone').value, vehicleNumber:$('asgVehicleNumber').value, pickupTime:$('asgPickupTime').value, dropTime:$('asgDropTime').value, pickupFrom:$('asgPickupFrom').value, dropAt:$('asgDropAt').value, initialPaymentAfterPickup:$('asgInitialPayment').value, finalDayBalance:$('asgFinalBalance').value, notes:$('asgNotes').value,paymentAccount:'glide' }); }
   function updateAssignPreview(){ const q=state.assignQuote; if(q) $('asgFetched').innerHTML=fetchedHtml(q); $('assignPreview').innerHTML=buildAssignPreviewHtml(q); }
 
   function fetchedHtml(q){ return `<strong>${escapeHtml(q.quoteNo)}</strong><br>${escapeHtml(q.clientName)} · ${escapeHtml(q.phone)}<br>${escapeHtml(q.pickup)} → ${escapeHtml(q.intermediateLocation)} → ${escapeHtml(q.drop)}<br>${escapeHtml(q.pickupDate)} to ${escapeHtml(q.dropDate)} · ${escapeHtml(q.vehicleType)}<br>Package: ₹${formatMoney(q.packageCost)} · Advance: ₹${formatMoney(q.advanceAmount)}`; }
@@ -840,7 +921,7 @@ We look forward to serving you! 😊`;
     </div></section>`;
   }
 
-  function buildAssignPreviewHtml(q){ if(!q) return blankDoc('Assign Driver','Fetch a quotation to preview customer and driver assignment PDFs.'); const data=assignData(q); return assignmentPdfPage(data,'customer') + assignmentPdfPage(data,'driver'); }
+  function buildAssignPreviewHtml(q){ if(!q) return blankDoc('Driver and Vehicle Details','Fetch a quotation to preview driver and vehicle details.'); const data=assignData(q); return assignmentPdfPage(data,'customer'); }
   function recalcAssignFinalBalance(){
     const q=state.assignQuote;
     if(!q || !$('asgFinalBalance')) return;
@@ -868,10 +949,10 @@ We look forward to serving you! 😊`;
 
   function assignmentPdfPage(d,type){
     const isCustomer=type==='customer';
-    const title=isCustomer?'Customer Trip Confirmation':'Driver Trip Assignment';
+    const title='Driver and Vehicle Details';
     const paymentCard=isCustomer?`<section class="pdf-card customer-payment-card" style="font-size:9.5pt;"><h3>Payment Summary</h3><table class="pdf-data" style="font-size:9.2pt;"><tr><th>Fare</th><td>₹${formatMoney(d.fare)}</td></tr><tr><th>Advance Paid</th><td>₹${formatMoney(d.advance)}</td></tr><tr><th>Balance Before Pickup Payment</th><td>₹${formatMoney(d.balance)}</td></tr><tr><th>After Pickup</th><td>Kindly proceed with the initial payment of <strong>₹${formatMoney(d.initialPaymentAfterPickup)}</strong> for fuel and driver allowance.</td></tr><tr><th>Final Day</th><td>Please complete the remaining payment of <strong>₹${formatMoney(d.finalDayBalance)}</strong> at or before drop-off.</td></tr><tr><th>Extra KM</th><td>Extra kilometres, if any, will be charged at ₹${formatMoney(d.extraKmCharge)}/KM after the included KM limit.</td></tr></table><div class="pdf-note-bar payment-inline" style="font-size:9.1pt;line-height:1.55;"><strong>Always use the company account for secure transactions.</strong><br>${paymentDetailsMarkup()}</div></section>`:'';
     const driverNotes=!isCustomer?`<section class="pdf-list-card assignment-message" style="font-size:9.3pt;"><h3>Driver Instructions</h3><ul>${driverInstructions(d).map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul></section>`:'';
-    return `<section class="pdf-page receipt-page"><div class="pdf-content">${brandRowHtml(d.bookingId,title)}<div class="receipt-title"><h2>${escapeHtml(title)}</h2><p>Booking ID: <strong>${escapeHtml(d.bookingId)}</strong> · Quote: <strong>${escapeHtml(d.quoteNo)}</strong></p></div><div class="receipt-grid"><section class="pdf-card"><h3>Customer & Trip</h3><table class="pdf-data"><tr><th>Customer</th><td>${escapeHtml(d.clientName)}</td></tr><tr><th>Phone</th><td>${escapeHtml(d.phone)}</td></tr><tr><th>Pickup</th><td>${formatLongDateTime(d.pickupDateTime)}<br>${escapeHtml(d.pickupFrom)}</td></tr><tr><th>Stops</th><td>${escapeHtml(d.intermediateLocation)}</td></tr><tr><th>Drop</th><td>${formatLongDateTime(d.dropDateTime)}<br>${escapeHtml(d.dropAt)}</td></tr></table></section><section class="pdf-card"><h3>Vehicle & Driver</h3><table class="pdf-data"><tr><th>Driver</th><td>${escapeHtml(d.driverName)}</td></tr><tr><th>Driver Phone</th><td>${escapeHtml(d.driverPhone)}</td></tr><tr><th>Vehicle</th><td>${escapeHtml(d.vehicleType)}</td></tr><tr><th>Vehicle No</th><td>${escapeHtml(d.vehicleNumber)}</td></tr></table></section></div>${paymentCard}<div class="pdf-short-terms">${extraTravelTerms().map(escapeHtml).join('<br>')}</div>${driverNotes}<div class="receipt-thanks">For support, contact ${escapeHtml(cfg.phone||'+91 8667737237')}<br>This is a computer-generated trip assignment.</div>${footerHtml()}</div></section>`;
+    return `<section class="pdf-page receipt-page"><div class="pdf-content">${brandRowHtml(d.bookingId,'Details')}<div class="receipt-title"><h2>${escapeHtml(title)}</h2><p>Booking ID: <strong>${escapeHtml(d.bookingId)}</strong> · Quote: <strong>${escapeHtml(d.quoteNo)}</strong></p></div><div class="receipt-grid"><section class="pdf-card"><h3>Customer & Trip</h3><table class="pdf-data"><tr><th>Customer</th><td>${escapeHtml(d.clientName)}</td></tr><tr><th>Phone</th><td>${escapeHtml(d.phone)}</td></tr><tr><th>Pickup</th><td>${formatLongDateTime(d.pickupDateTime)}<br>${escapeHtml(d.pickupFrom)}</td></tr><tr><th>Stops</th><td>${escapeHtml(d.intermediateLocation)}</td></tr><tr><th>Drop</th><td>${formatLongDateTime(d.dropDateTime)}<br>${escapeHtml(d.dropAt)}</td></tr></table></section><section class="pdf-card"><h3>Vehicle & Driver</h3><table class="pdf-data"><tr><th>Driver</th><td>${escapeHtml(d.driverName)}</td></tr><tr><th>Driver Phone</th><td>${escapeHtml(d.driverPhone)}</td></tr><tr><th>Vehicle</th><td>${escapeHtml(d.vehicleType)}</td></tr><tr><th>Vehicle No</th><td>${escapeHtml(d.vehicleNumber)}</td></tr></table></section></div>${paymentCard}<div class="pdf-short-terms">${extraTravelTerms().map(escapeHtml).join('<br>')}</div>${driverNotes}<div class="receipt-thanks">For support, contact ${escapeHtml(cfg.phone||'+91 8667737237')}<br>This is a computer-generated driver and vehicle details document.</div>${footerHtml()}</div></section>`;
   }
 
   function driverInstructions(d){ const list=['Please reach the pickup location on time and contact the customer before reaching.','Please introduce yourself and confirm clearly that you are the assigned driver from Glide Tourism.','Take the odometer reading before leaving the office and share it with the office team.','After drop, return to office and share the final odometer/end KM reading.','Kindly follow the itinerary and route instructions shared by the office.','For any route, customer or vehicle issue during the trip, contact the office immediately at 8667737237.']; if(d.notes) list.push(d.notes); return list; }
@@ -905,7 +986,7 @@ We look forward to serving you! 😊`;
   function buildQuotePrintName(){ const q=getQuoteMeta($('runningNo').value.trim()).quoteNo; return `${safeQuote(q)} ${($('clientName').value||'Client').trim()}`; }
   function buildAdvancePrintName(){ const q=state.advanceQuote; return q?`Advance Receipt ${safeQuote(q.quoteNo)} ${q.clientName||'Client'}`:'Advance_Receipt'; }
   function buildInvoicePrintName(){ const q=state.invoiceQuote; return q?`Final Invoice ${safeQuote(q.quoteNo)} ${q.clientName||'Client'}`:'Final_Invoice'; }
-  function buildAssignPrintName(){ const q=state.assignQuote; return q?`Assigned Driver ${safeQuote(q.quoteNo)} ${q.clientName||'Client'}`:'Assigned_Driver'; }
+  function buildAssignPrintName(){ const q=state.assignQuote; return q?`Driver and Vehicle Details ${safeQuote(q.quoteNo)} ${q.clientName||'Client'}`:'Driver and Vehicle Details'; }
   function printCurrent(name){ const old=document.title; document.title=name||'Glide Tourism PDF'; setTimeout(()=>{ window.print(); setTimeout(()=>{ document.title=old; },500); },50); }
   function setMsg(id,msg,type){ const el=$(id); el.textContent=msg||''; el.classList.remove('good','bad'); if(type) el.classList.add(type); }
   function routeText(a,b,c){ return [a,b,c].map(x=>String(x||'').trim()).filter(Boolean).join(' → ') || '-'; }
