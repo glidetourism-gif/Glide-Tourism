@@ -733,7 +733,7 @@ We look forward to serving you! 😊`;
     const link=document.createElement('a');
     link.id='asgDriverMessageBtn';
     link.className='secondary-btn action-btn';
-    link.textContent='Driver Message';
+    link.textContent='Customer Details';
     link.href='#';
     link.target='_blank';
     link.rel='noopener noreferrer';
@@ -756,7 +756,7 @@ We look forward to serving you! 😊`;
     const link=document.createElement('a');
     link.id='asgCustomerMessageBtn';
     link.className='secondary-btn action-btn';
-    link.textContent='Customer Message';
+    link.textContent='Driver and Vehicle Details';
     link.href='#';
     link.target='_blank';
     link.rel='noopener noreferrer';
@@ -786,7 +786,7 @@ We look forward to serving you! 😊`;
     const companyName=String(cfg.companyName||'Glide Tourism').trim();
     const supportPhone=String(cfg.phone||'+91 8667737237').trim();
     return [
-      `👋 Dear ${customerName},`,
+      `Dear ${customerName},`,
       '',
       'Here are the driver and vehicle details for your trip.',
       `> Driver Name: ${driverName}`,
@@ -794,12 +794,12 @@ We look forward to serving you! 😊`;
       `> Vehicle: ${vehicle}`,
       `> Vehicle Number: ${vehicleNumber}`,
       '',
-      'Everything is arranged as planned ✅',
+      'Everything is arranged as planned.',
       'Our driver will coordinate with you and reach on time for pickup.',
       '',
-      `📞 For any assistance, feel free to contact us anytime: ${supportPhone}`,
+      `For any assistance, feel free to contact us anytime: ${supportPhone}`,
       '',
-      'Wishing you a safe and pleasant journey 💚',
+      'Wishing you a safe and pleasant journey.',
       'Regards,',
       companyName
     ].join('\n');
