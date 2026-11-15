@@ -1,7 +1,7 @@
 // Glide Tourism's own Apps Script /exec URL goes here after first deployment.
 // Never copy the Covai Glide deployment URL into this file.
 window.APP_CONFIG = {
-  webAppUrl: 'https://script.google.com/macros/s/AKfycbyhORQU_G2k4ztCdFfegn54mpdECrXMuv2qeCzXWo12Kkiy3k2VfAaa5AegvuifAzU6Ww/exec',
+  webAppUrl: 'https://script.google.com/macros/s/AKfycbyuEJ_OtlQ15ldocrMDbxYpaBjmDd1-2N8Zne_qvpyovAEIgV04-X_Xf83qBOhwj5WC3w/exec',
   companyName: 'GLIDE TOURISM',
   companyLine: 'Your Trusted Travel Partner',
   website: 'www.glidetourism.com',
