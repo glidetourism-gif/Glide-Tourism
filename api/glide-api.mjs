@@ -4,7 +4,7 @@
 
 // Current Glide Tourism /exec endpoint observed in the browser's console on 14 Nov 2026.
 // If you create a new Google deployment, update this constant to its NEW /exec URL.
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyhORQU_G2k4ztCdFfegn54mpdECrXMuv2qeCzXWo12Kkiy3k2VfAaa5AegvuifAzU6Ww/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyuEJ_OtlQ15ldocrMDbxYpaBjmDd1-2N8Zne_qvpyovAEIgV04-X_Xf83qBOhwj5WC3w/exec';
 
 const ACTIONS = new Set([
   'login', 'getQuoteSequenceInfo', 'fetchQuoteByParts', 'generateQuote',
