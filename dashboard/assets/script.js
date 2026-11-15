@@ -725,6 +725,7 @@ We look forward to serving you! 😊`;
     $('asgPrintBtn').addEventListener('click',()=>printCurrent(buildAssignPrintName()));
     $('asgSaveBtn').addEventListener('click',saveAssign);
     addDriverMessageLink();
+    addCustomerMessageLink();
   }
 
   function addDriverMessageLink(){
@@ -748,6 +749,67 @@ We look forward to serving you! 😊`;
       }
     });
     $('asgSaveBtn').parentNode.insertBefore(link,$('asgSaveBtn'));
+  }
+
+  function addCustomerMessageLink(){
+    if($('asgCustomerMessageBtn') || !$('asgSaveBtn')) return;
+    const link=document.createElement('a');
+    link.id='asgCustomerMessageBtn';
+    link.className='secondary-btn action-btn';
+    link.textContent='Customer Message';
+    link.href='#';
+    link.target='_blank';
+    link.rel='noopener noreferrer';
+    link.style.textDecoration='none';
+    link.addEventListener('click',event=>{
+      try {
+        link.href=customerMessageLink();
+        setMsg('asgMsg','Customer message ready. Review it in WhatsApp before sending.','good');
+      } catch(error) {
+        event.preventDefault();
+        setMsg('asgMsg',error.message||String(error),'bad');
+      }
+    });
+    $('asgSaveBtn').parentNode.insertBefore(link,$('asgSaveBtn'));
+  }
+  function customerMessageText(q){
+    if(!q) throw new Error('Fetch quote first.');
+    const customerName=String(q.clientName||'').trim();
+    const driverName=String($('asgDriverName').value||'').trim();
+    const driverPhone=String($('asgDriverPhone').value||'').trim();
+    const vehicle=String($('asgVehicleType').value||q.vehicleType||'').trim();
+    const vehicleNumber=String($('asgVehicleNumber').value||'').trim();
+    if(!customerName) throw new Error('Customer name is required in the quotation.');
+    if(!driverName) throw new Error('Enter the driver name.');
+    driverMessagePhone(driverPhone);
+    if(!vehicle || !vehicleNumber) throw new Error('Enter the vehicle type and vehicle number.');
+    const companyName=String(cfg.companyName||'Glide Tourism').trim();
+    const supportPhone=String(cfg.phone||'+91 8667737237').trim();
+    return [
+      `👋 Dear ${customerName},`,
+      '',
+      'Here are the driver and vehicle details for your trip.',
+      `> Driver Name: ${driverName}`,
+      `> Driver Phone number: ${driverPhone}`,
+      `> Vehicle: ${vehicle}`,
+      `> Vehicle Number: ${vehicleNumber}`,
+      '',
+      'Everything is arranged as planned ✅',
+      'Our driver will coordinate with you and reach on time for pickup.',
+      '',
+      `📞 For any assistance, feel free to contact us anytime: ${supportPhone}`,
+      '',
+      'Wishing you a safe and pleasant journey 💚',
+      'Regards,',
+      companyName
+    ].join('\n');
+  }
+  function customerMessageLink(){
+    const message=customerMessageText(state.assignQuote);
+    let phone;
+    try { phone=driverMessagePhone(state.assignQuote.phone); }
+    catch(error) { throw new Error('Enter a valid customer phone number in the quotation, including country code for international numbers.'); }
+    return 'https://wa.me/'+phone+'?text='+encodeURIComponent(message);
   }
 
   function driverMessageDateTime(dateText,time){
